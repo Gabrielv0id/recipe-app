@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import UserContext from '../context/UserContext';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -8,12 +9,14 @@ function Login() {
   });
 
   const history = useHistory();
+  const { setUser } = useContext(UserContext);
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
     setFormData({ ...formData, [name]: value });
   };
 
+  // Valida se o email é válido e se a senha tem mais de 6 caracteres
   const validateButton = () => {
     const { email, password } = formData;
     const minCharName = 6;
@@ -22,11 +25,13 @@ function Login() {
     return verifyEmail && verifyName;
   };
 
+  // Ao clicar no botão, o usuário é redirecionado para a página de receitas, seu email é salvo no localStorage e no context
   const handleSubmit = (event) => {
     event.preventDefault();
     const { email } = formData;
     const user = { email };
     history.push('/meals');
+    setUser(user);
     localStorage.setItem('user', JSON.stringify(user));
   };
 

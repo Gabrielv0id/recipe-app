@@ -1,5 +1,9 @@
 function Recipe() {
-  return <div>Recipe</div>;
+  return (
+    <section>
+      <h2>Recipe</h2>
+    </section>
+  );
 }
 
 export default Recipe;

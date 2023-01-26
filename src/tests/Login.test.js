@@ -1,23 +1,31 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { wait } from '@testing-library/user-event/dist/utils';
 import App from '../App';
+import renderWithRouter from './utils/renderWithRouter';
+import UserProvider from '../context/UserProvider';
 
-describe('Farewell, front-end', () => {
+describe('Testes da pagina de Login', () => {
+  let history;
   beforeEach(() => {
-    render(
-      <BrowserRouter>
+    const component = renderWithRouter(
+      <UserProvider>
         <App />
-      </BrowserRouter>,
+      </UserProvider>,
     );
+    history = component.history;
   });
 
   const email = 'trybe@gmail.com';
   const password = '1234567';
   const wrongEmail = 'trybegmail.com';
   const wrongPassword = '12345';
+
+  test('se a rota é /login', () => {
+    const { location: { pathname } } = history;
+    expect(pathname).toBe('/');
+  });
 
   test('se esta na pagina de login', () => {
     const heading = screen.getByRole('heading', { name: /login/i });
@@ -66,6 +74,7 @@ describe('Farewell, front-end', () => {
     await wait(async () => {
       const heading = await screen.findByRole('heading', { name: /recipe/i });
       expect(heading).toBeInTheDocument();
+      expect(history.location.pathname).toBe('/meals');
     });
   });
 });

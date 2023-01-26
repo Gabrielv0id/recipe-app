@@ -1,5 +1,9 @@
 function SearchBar() {
-  return <div>SearchBar</div>;
+  return (
+    <form>
+      <input type="text" placeholder="Pesquisar" data-testid="search-input" />
+    </form>
+  );
 }
 
 export default SearchBar;
