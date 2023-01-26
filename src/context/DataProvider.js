@@ -6,8 +6,13 @@ function DataProvider({ children }) {
   const [user, setUser] = useState({
     email: '',
   });
+  const [recipes, setRecipes] = useState([]);
 
-  const value = useMemo(() => ({ user, setUser }), [user, setUser]);
+  const value = useMemo(
+    () => (
+      { user, setUser, recipes, setRecipes }),
+    [user, setUser, recipes, setRecipes],
+  );
 
   return (
     <DataContext.Provider value={ value }>
