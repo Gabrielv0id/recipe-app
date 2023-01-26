@@ -35,7 +35,9 @@ function SearchBar({ type }) {
     // Verifica se o retorno é unico, se for, redireciona para a pagina do item
     if (data[type].length === 0) {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
-    } else if (data[type].length === 1) {
+    }
+
+    if (data[type].length === 1) {
       const uniqueId = data[type][0].idMeal || data[type][0].idDrink;
       history.push(`/${type}/${uniqueId}`);
     } else {
