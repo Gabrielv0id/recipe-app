@@ -43,6 +43,11 @@ function SearchBar({ type }) {
     } else {
       setRecipes(data[type]);
     }
+
+    setSearchData({
+      search: '',
+      filter: '',
+    });
   };
 
   const { search } = searchData;
