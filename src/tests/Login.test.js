@@ -4,15 +4,15 @@ import userEvent from '@testing-library/user-event';
 import { wait } from '@testing-library/user-event/dist/utils';
 import App from '../App';
 import renderWithRouter from './utils/renderWithRouter';
-import UserProvider from '../context/UserProvider';
+import DataProvider from '../context/DataProvider';
 
 describe('Testes da pagina de Login', () => {
   let history;
   beforeEach(() => {
     const component = renderWithRouter(
-      <UserProvider>
+      <DataProvider>
         <App />
-      </UserProvider>,
+      </DataProvider>,
     );
     history = component.history;
   });

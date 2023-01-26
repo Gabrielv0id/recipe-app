@@ -3,15 +3,15 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from './utils/renderWithRouter';
-import UserProvider from '../context/UserProvider';
+import DataProvider from '../context/DataProvider';
 
 describe('Testes do component Header', () => {
   let history;
   beforeEach(() => {
     const component = renderWithRouter(
-      <UserProvider>
+      <DataProvider>
         <App />
-      </UserProvider>,
+      </DataProvider>,
     );
 
     history = component.history;

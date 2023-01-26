@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import UserContext from './UserContext';
+import DataContext from './DataContext';
 
-function UserProvider({ children }) {
+function DataProvider({ children }) {
   const [user, setUser] = useState({
     email: '',
   });
@@ -10,14 +10,14 @@ function UserProvider({ children }) {
   const value = useMemo(() => ({ user, setUser }), [user, setUser]);
 
   return (
-    <UserContext.Provider value={ value }>
+    <DataContext.Provider value={ value }>
       {children}
-    </UserContext.Provider>
+    </DataContext.Provider>
   );
 }
 
-UserProvider.propTypes = {
+DataProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export default UserProvider;
+export default DataProvider;

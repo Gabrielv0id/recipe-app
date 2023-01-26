@@ -4,16 +4,16 @@ import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import UserProvider from './context/UserProvider';
+import DataProvider from './context/DataProvider';
 
 ReactDOM
   .createRoot(document.getElementById('root'))
   .render(
-    <UserProvider>
+    <DataProvider>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </UserProvider>,
+    </DataProvider>,
   );
 
 // If you want your app to work offline and load faster, you can change

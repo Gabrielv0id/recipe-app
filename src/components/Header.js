@@ -5,7 +5,7 @@ import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
 
-function Header({ title, profile, search }) {
+function Header({ title, profile, search, type }) {
   const [showSearchBar, setShowSearchBar] = useState(false);
 
   const history = useHistory();
@@ -25,7 +25,7 @@ function Header({ title, profile, search }) {
         <button type="button" onClick={ () => setShowSearchBar(!showSearchBar) }>
           <img src={ searchIcon } alt="search" data-testid="search-top-btn" />
         </button>)}
-      {showSearchBar && <SearchBar />}
+      {showSearchBar && <SearchBar type={ type } />}
     </header>
   );
 }
@@ -33,12 +33,14 @@ function Header({ title, profile, search }) {
 Header.defaultProps = {
   profile: false,
   search: false,
+  type: '',
 };
 
 Header.propTypes = {
   title: PropTypes.string.isRequired,
   profile: PropTypes.bool,
   search: PropTypes.bool,
+  type: PropTypes.string,
 };
 
 export default Header;

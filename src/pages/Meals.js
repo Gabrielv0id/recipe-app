@@ -3,7 +3,7 @@ import Header from '../components/Header';
 function Meals() {
   return (
     <section>
-      <Header title="Meals" profile search />
+      <Header title="Meals" type="meals" profile search />
     </section>
   );
 }

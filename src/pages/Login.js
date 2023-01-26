@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import UserContext from '../context/UserContext';
+import DataContext from '../context/DataContext';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -9,7 +9,7 @@ function Login() {
   });
 
   const history = useHistory();
-  const { setUser } = useContext(UserContext);
+  const { setUser } = useContext(DataContext);
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
