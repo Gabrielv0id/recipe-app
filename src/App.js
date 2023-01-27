@@ -5,13 +5,12 @@ import { Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
 import Meals from './pages/Meals';
 import Drinks from './pages/Drinks';
-import MealDetails from './pages/MealDetails';
-import DrinkDetails from './pages/DrinkDetails';
 import MealInProgress from './pages/MealInProgress';
 import DrinkInProgress from './pages/DrinkInProgress';
 import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
+import RecipeDetails from './pages/RecipeDetails';
 
 function App() {
   return (
@@ -22,12 +21,12 @@ function App() {
       <Route
         exact
         path="/meals/:id"
-        render={ (props) => <MealDetails { ...props } /> }
+        render={ (props) => <RecipeDetails { ...props } /> }
       />
       <Route
         exact
         path="/drinks/:id"
-        render={ (props) => <DrinkDetails { ...props } /> }
+        render={ (props) => <RecipeDetails { ...props } /> }
       />
       <Route
         path="/meals/:id/in-progress"

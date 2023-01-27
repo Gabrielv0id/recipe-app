@@ -19,7 +19,7 @@ function Recipes({ type }) {
       setRecipesDB(data[type]);
     };
     getRecipes();
-  }, [type]);
+  }, [type, setRecipes, setRecipesDB]);
 
   let limitRecipes = recipes;
   if (recipes.length > MAXRECIPES) limitRecipes = recipes.slice(0, MAXRECIPES);

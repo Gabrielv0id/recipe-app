@@ -11,3 +11,29 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+img {
+  max-width: 100%;
+}
+
+.carousel-scroll {
+  display: grid;
+  grid-auto-columns: 50%;
+  grid-auto-flow: column;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+
+.snaps {
+  scroll-padding: 0 0 0 0;
+  scroll-snap-type: inline mandatory;
+}
+
+.snaps > * {
+  scroll-snap-align: start;
+}
+
+.recipe-btn {
+  position: fixed;
+  bottom: 0;
+}

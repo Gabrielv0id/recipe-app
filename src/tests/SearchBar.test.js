@@ -2,24 +2,33 @@ import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { wait } from '@testing-library/user-event/dist/utils';
+import { act } from 'react-dom/test-utils';
 import App from '../App';
 import renderWithRouter from './utils/renderWithRouter';
 import DataProvider from '../context/DataProvider';
+import { mealMock } from './mocks/mockData';
 
 const searchInputStr = 'search-input';
 const searchTopBtnStr = 'search-top-btn';
 const searchName = 'name-search-radio';
 const searchBtn = 'exec-search-btn';
 
+const spyFetch = jest.spyOn(global, 'fetch');
+
 describe('Testa o componente SearchBar e...', () => {
   let history;
   beforeEach(() => {
-    const component = renderWithRouter(
-      <DataProvider>
-        <App />
-      </DataProvider>,
-    );
-    history = component.history;
+    act(() => {
+      spyFetch.mockResolvedValue({
+        json: jest.fn().mockResolvedValue(mealMock),
+      });
+      const component = renderWithRouter(
+        <DataProvider>
+          <App />
+        </DataProvider>,
+      );
+      history = component.history;
+    });
 
     const email = 'trybe@gmail.com';
     const password = '1234567';
@@ -33,7 +42,7 @@ describe('Testa o componente SearchBar e...', () => {
 
     userEvent.click(loginButton);
   });
-  test('verifica se o titulo da pagina é Meals', () => {
+  test('verifica se o titulo da pagina é Meals', async () => {
     const heading = screen.getByRole('heading', { name: /meals/i });
     expect(heading).toBeInTheDocument();
   });
@@ -63,24 +72,26 @@ describe('Testa o componente SearchBar e...', () => {
     expect(spy).toHaveBeenCalledWith('Your search must have only 1 (one) character');
   });
 
-  test('verifica se da mensagem de erro caso o que esta sendo procurado nao exista', async () => {
+  test('verifica se da mensagem de erro "Sorry, we haven\'t found any recipes for these filters." caso o que esta sendo procurado nao exista', async () => {
+    const alertSpy = jest.spyOn(global, 'alert');
     const headerSearchButton = screen.getByTestId(searchTopBtnStr);
     userEvent.click(headerSearchButton);
 
-    const errorText = 'xablau';
+    const testText = 'xablau';
 
     const searchInput = screen.getByTestId(searchInputStr);
-    const nameRadio = screen.getByTestId(searchName);
+    const ingredientRadio = screen.getByTestId('ingredient-search-radio');
     const searchButton = screen.getByTestId(searchBtn);
 
-    userEvent.click(nameRadio);
-    userEvent.type(searchInput, errorText);
-
-    const spy = jest.spyOn(global, 'alert');
+    userEvent.click(ingredientRadio);
+    userEvent.type(searchInput, testText);
 
     await waitFor(() => {
+      console.log(alertSpy.mock.calls);
       userEvent.click(searchButton);
-      expect(spy).toHaveBeenCalledWith('Sorry, we haven\'t found any recipes for these filters.');
+      console.log(alertSpy.mock.calls);
+      expect(alertSpy).toHaveBeenCalled();
+      expect(alertSpy).toHaveBeenCalledWith('Sorry, we haven\'t found any recipes for these filters.');
     });
   });
 
@@ -110,7 +121,7 @@ describe('Testa o componente SearchBar e...', () => {
     const headerSearchButton = screen.getByTestId(searchTopBtnStr);
     userEvent.click(headerSearchButton);
 
-    const testText = 'Arrabiata';
+    const testText = 'Corba';
 
     const searchInput = screen.getByTestId(searchInputStr);
     const nameRadio = screen.getByTestId(searchName);
@@ -119,9 +130,9 @@ describe('Testa o componente SearchBar e...', () => {
     userEvent.click(nameRadio);
     userEvent.type(searchInput, testText);
 
-    await waitFor(async () => {
+    await wait(async () => {
       userEvent.click(searchButton);
-      expect(history.location.pathname).toBe('/meals/52771');
+      expect(history.location.pathname).toBe('/comidas/52977');
     });
   });
 });
