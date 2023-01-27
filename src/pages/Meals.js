@@ -9,6 +9,7 @@ function Meals() {
       <Header title="Meals" type="meals" profile search />
       <MainPageButtons type="meals" />
       <Recipes type="meals" />
+      <Footer />
     </section>
   );
 }
