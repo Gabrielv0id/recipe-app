@@ -121,7 +121,6 @@ describe('Testa o componente SearchBar e...', () => {
 
     await waitFor(async () => {
       userEvent.click(searchButton);
-      console.log(history.location.pathname);
       expect(history.location.pathname).toBe('/meals/52771');
     });
   });

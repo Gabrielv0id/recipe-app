@@ -7,11 +7,20 @@ function DataProvider({ children }) {
     email: '',
   });
   const [recipes, setRecipes] = useState([]);
+  const [buttons, setButtons] = useState([]);
+  const [recipesDB, setRecipesDB] = useState([]);
 
   const value = useMemo(
     () => (
-      { user, setUser, recipes, setRecipes }),
-    [user, setUser, recipes, setRecipes],
+      { user,
+        setUser,
+        recipes,
+        setRecipes,
+        buttons,
+        setButtons,
+        recipesDB,
+        setRecipesDB }),
+    [user, setUser, recipes, setRecipes, buttons, setButtons, recipesDB, setRecipesDB],
   );
 
   return (
