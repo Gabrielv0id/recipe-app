@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import { handleFetch } from '../services/fetchService';
+import { handleFetchSearch } from '../services/fetchService';
 import DataContext from '../context/DataContext';
 
 // type define se o usuario esta no drinks or meals
@@ -30,8 +30,8 @@ function SearchBar({ type }) {
     }
 
     // Pega dados da API baseado no tipo, filtro e busca
-    const data = await handleFetch(type, filter, search);
-    //
+    const data = await handleFetchSearch(type, filter, search);
+
     // Verifica se o retorno é unico, se for, redireciona para a pagina do item
     if (data[type].length === 0) {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
