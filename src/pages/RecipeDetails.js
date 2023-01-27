@@ -1,16 +1,38 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Carousel from '../components/Carousel';
 import { handleFetchWithId, handleRecommendations } from '../services/fetchService';
 
 function RecipeDetails({ location: { pathname } }) {
   const [recommendations, setRecommendations] = useState([]);
+  const [inProgress, setInProgress] = useState(false);
   const [recipe, setRecipe] = useState({
     ingredients: [],
     measures: [],
   });
   const type = pathname.split('/')[1];
   const id = pathname.split('/')[2];
+
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!localStorage.getItem('inProgressRecipes')) {
+      localStorage.setItem('inProgressRecipes', JSON.stringify({
+        drinks: {},
+        meals: {},
+      }));
+    } else {
+      const inProgressRecipe = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      if (type === 'meals') {
+        const inProgressMeals = inProgressRecipe.meals;
+        if (inProgressMeals[id]) setInProgress(true);
+      } else {
+        const inProgressDrinks = inProgressRecipe.drinks;
+        if (inProgressDrinks[id]) setInProgress(true);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const fetchIdData = async () => {
@@ -38,6 +60,35 @@ function RecipeDetails({ location: { pathname } }) {
 
     fetchIdData();
   }, [type, id]);
+
+  const handleStart = () => {
+    const { idMeal, idDrink, ingredients } = recipe;
+    if (type === 'meals') {
+      const inProgressRecipe = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      const newInProgressRecipes = {
+        ...inProgressRecipe,
+        meals: {
+          ...inProgressRecipe.meals,
+          [idMeal]: ingredients,
+        },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(newInProgressRecipes));
+      setInProgress(true);
+      history.push(`/meals/${id}/in-progress`);
+    } else {
+      const inProgressRecipe = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      const newInProgressRecipes = {
+        ...inProgressRecipe,
+        drinks: {
+          ...inProgressRecipe.drinks,
+          [idDrink]: ingredients,
+        },
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(newInProgressRecipes));
+      setInProgress(true);
+      history.push(`/drinks/${id}/in-progress`);
+    }
+  };
 
   const handleVideo = (url) => {
     if (!url) return '';
@@ -79,7 +130,13 @@ function RecipeDetails({ location: { pathname } }) {
       <hr />
       <h3>Recomendadas</h3>
       <Carousel data={ recommendations } />
-      <button data-testid="start-recipe-btn" className="recipe-btn">Start Recipe</button>
+      <button
+        data-testid="start-recipe-btn"
+        className="recipe-btn"
+        onClick={ handleStart }
+      >
+        { !inProgress ? 'Start Recipe' : 'Continue Recipe' }
+      </button>
     </section>
   );
 }
