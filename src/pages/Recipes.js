@@ -10,7 +10,6 @@ function Recipe() {
 
   let limitRecipes = recipes;
   if (recipes.length > MAXRECIPES) limitRecipes = recipes.slice(0, MAXRECIPES);
-  console.log(limitRecipes);
 
   return (
     <section>
