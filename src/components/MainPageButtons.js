@@ -15,7 +15,7 @@ export default function MainPageButtons({ type }) {
       setButtons(data[type]);
     };
     getButtons();
-  }, [type]);
+  }, [type, setButtons]);
 
   const limitButtons = buttons.slice(0, MAXBUTTONS);
 

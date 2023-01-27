@@ -1,10 +1,11 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import Footer from '../components/Footer';
+import renderWithRouter from './utils/renderWithRouter';
 
 describe('Testando Footer', () => {
   test('Se Reederiza tudo', () => {
-    render(<Footer />);
+    renderWithRouter(<Footer />);
     const meal = screen.getByRole('img', {
       name: /meals icon/i,
     });
