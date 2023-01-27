@@ -1,3 +1,4 @@
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Recipes from './Recipes';
 
@@ -6,6 +7,7 @@ function Drinks() {
     <section>
       <Header title="Drinks" type="drinks" profile search />
       <Recipes />
+      <Footer />
     </section>
   );
 }
