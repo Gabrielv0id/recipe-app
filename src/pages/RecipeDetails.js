@@ -1,10 +1,16 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import copy from 'clipboard-copy';
 import Carousel from '../components/Carousel';
 import { handleFetchWithId, handleRecommendations } from '../services/fetchService';
+import shareIcon from '../images/shareIcon.svg';
+import favoriteIcon from '../images/blackHeartIcon.svg';
+import emptyFavoriteIcon from '../images/whiteHeartIcon.svg';
 
 function RecipeDetails({ location: { pathname } }) {
+  const [linkCopied, setLinkCopied] = useState(false);
+  const [favorite, setFavorite] = useState(false);
   const [recommendations, setRecommendations] = useState([]);
   const [inProgress, setInProgress] = useState(false);
   const [recipe, setRecipe] = useState({
@@ -32,7 +38,22 @@ function RecipeDetails({ location: { pathname } }) {
         if (inProgressDrinks[id]) setInProgress(true);
       }
     }
-  }, []);
+
+    if (localStorage.getItem('favoriteRecipes')) {
+      const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+      if (type === 'meals') {
+        const favoriteMeals = favoriteRecipes
+          .filter((recipes) => recipes.type === 'meal');
+        const favoriteMealIds = favoriteMeals.map((recipes) => recipes.id);
+        if (favoriteMealIds.includes(id)) setFavorite(true);
+      } else {
+        const favoriteDrinks = favoriteRecipes
+          .filter((recipes) => recipes.type === 'drink');
+        const favoriteDrinkIds = favoriteDrinks.map((recipes) => recipes.id);
+        if (favoriteDrinkIds.includes(id)) setFavorite(true);
+      }
+    }
+  }, [id, type]);
 
   useEffect(() => {
     const fetchIdData = async () => {
@@ -95,6 +116,58 @@ function RecipeDetails({ location: { pathname } }) {
     return `https://www.youtube.com/embed/${url.split('/')[3]}`;
   };
 
+  const handleCopy = () => {
+    copy(`http://localhost:3000${pathname}`);
+    setLinkCopied(true);
+  };
+
+  const handleFavorite = () => {
+    if (!localStorage.getItem('favoriteRecipes')) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+    }
+
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+
+    if (type === 'meals') {
+      const newFavoriteRecipes = [...favoriteRecipes, {
+        id: recipe.idMeal,
+        type: 'meal',
+        nationality: recipe.strArea,
+        category: recipe.strCategory,
+        alcoholicOrNot: '',
+        name: recipe.strMeal,
+        image: recipe.strMealThumb,
+      }];
+      localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
+    } else {
+      const newFavoriteRecipes = [...favoriteRecipes, {
+        id: recipe.idDrink,
+        type: 'drink',
+        nationality: '',
+        category: recipe.strCategory,
+        alcoholicOrNot: recipe.strAlcoholic,
+        name: recipe.strDrink,
+        image: recipe.strDrinkThumb,
+      }];
+      localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
+    }
+    setFavorite((prevState) => !prevState);
+  };
+
+  const handleRemoveFavorite = () => {
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (type === 'meals') {
+      const newFavoriteRecipes = favoriteRecipes
+        .filter((recipes) => recipes.id !== recipe.idMeal);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
+    } else {
+      const newFavoriteRecipes = favoriteRecipes
+        .filter((recipes) => recipes.id !== recipe.idDrink);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
+    }
+    setFavorite((prevState) => !prevState);
+  };
+
   return (
     <section>
       <img
@@ -104,6 +177,25 @@ function RecipeDetails({ location: { pathname } }) {
       />
       <h1 data-testid="recipe-title">{ recipe.strMeal || recipe.strDrink }</h1>
       <h2 data-testid="recipe-category">{ recipe.strAlcoholic || recipe.strCategory }</h2>
+      <div>
+        <button onClick={ handleCopy }>
+          <img src={ shareIcon } alt="share" data-testid="share-btn" />
+        </button>
+        <button
+          onClick={ favorite ? handleRemoveFavorite : handleFavorite }
+        >
+          <img
+            src={ favorite ? favoriteIcon : emptyFavoriteIcon }
+            alt="favorite"
+            data-testid="favorite-btn"
+          />
+        </button>
+      </div>
+      {linkCopied && (
+        <div>
+          <span>Link copied!</span>
+        </div>
+      )}
       <hr />
       <h3>Ingredients</h3>
       <ul>
