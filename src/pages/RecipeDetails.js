@@ -38,7 +38,9 @@ function RecipeDetails({ location: { pathname } }) {
         if (inProgressDrinks[id]) setInProgress(true);
       }
     }
+  }, [id, type]);
 
+  useEffect(() => {
     if (localStorage.getItem('favoriteRecipes')) {
       const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
       if (type === 'meals') {
