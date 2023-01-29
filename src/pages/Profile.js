@@ -1,10 +1,40 @@
-import Footer from '../components/Footer';
+import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 function Profile() {
+  const history = useHistory();
+  const clearLocalStorage = () => {
+    localStorage.clear();
+    history.push('/');
+  };
+
   return (
     <section>
       <Header title="Profile" profile />
+      <h1 data-testid="profile-email">
+        {JSON.parse(localStorage.getItem('user')).email}
+      </h1>
+      <Link to="/done-recipes">
+        <button type="button" data-testid="profile-done-btn">Done Recipes</button>
+      </Link>
+      <Link to="/favorite-recipes">
+        <button
+          type="button"
+          data-testid="profile-favorite-btn"
+        >
+          Favorite Recipes
+        </button>
+      </Link>
+      <button
+        type="button"
+        data-testid="profile-logout-btn"
+        onClick={ clearLocalStorage }
+      >
+        Logout
+
+      </button>
       <Footer />
     </section>
   );
