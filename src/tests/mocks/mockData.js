@@ -51,4 +51,41 @@ export const mealMock = { meals: [
   },
 ] };
 
+export const drinkMock = { drinks: [
+  {
+    idDrink: 11007,
+    strDrink: 'Margarita',
+    strInstructions: 'Rub the rim of the glass with the lime slice to make the salt stick to it. Take care to moisten only the outer rim and sprinkle the salt on it. The salt should present to the lips of the imbiber and never mix into the cocktail. Shake the other ingredients with ice, then carefully pour into the glass.',
+    strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg',
+    strIngredient1: 'Tequila',
+    strIngredient2: 'Triple sec',
+    strIngredient3: 'Lime juice',
+    strIngredient4: 'Salt',
+    strMeasure1: '1 1/2 oz ',
+    strMeasure2: '1/2 oz ',
+    strMeasure3: '1 oz ',
+    strMeasure4: null,
+    ingredients: ['Tequila', 'Triple sec', 'Lime juice', 'Salt'],
+    measures: ['1 1/2 oz ', '1/2 oz ', '1 oz ', null],
+  },
+  {
+    idDrink: 11008,
+    strDrink: 'Aquamarine',
+    strInstructions: 'Shake all ingredients (except nutmeg) with ice and strain into a cocktail glass. Sprinkle nutmeg on top and serve.',
+    strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/loezxn1504373874.jpg',
+    strIngredient1: 'Gin',
+    strIngredient2: 'Blue Curacao',
+    strIngredient3: 'Lemon juice',
+    strIngredient4: 'Powdered sugar',
+    strIngredient5: 'Nutmeg',
+    strMeasure1: '1 1/2 oz ',
+    strMeasure2: '1 oz ',
+    strMeasure3: '1/2 oz ',
+    strMeasure4: '1 tsp ',
+    strMeasure5: '1/4 tsp ',
+    ingredients: ['Gin', 'Blue Curacao', 'Lemon juice', 'Powdered sugar', 'Nutmeg'],
+    measures: ['1 1/2 oz ', '1 oz ', '1/2 oz ', '1 tsp ', '1/4 tsp '],
+  },
+] };
+
 export const mealErrorMock = [];
