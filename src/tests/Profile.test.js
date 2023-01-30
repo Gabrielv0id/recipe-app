@@ -4,25 +4,31 @@ import userEvent from '@testing-library/user-event';
 import Profile from '../pages/Profile';
 import renderWithRouter from './utils/renderWithRouter';
 
-describe('Teste do Perfil', () => {
-  it('Testando Botões.', () => {
-    const { renderProfile } = renderWithRouter(<Profile />);
-    const { history } = renderProfile.location;
+describe('Testando storage da pagina perfil', () => {
+  beforeEach(() => {
+    window.localStorage.setItem('user', JSON.stringify({ email: 'trybe@test.com' }));
+  });
+
+  afterEach(() => {
+    window.localStorage.clear();
+  });
+
+  test('Se o email do usuário estiver no localStorage, deve aparecer na tela', () => {
+    const { history } = renderWithRouter(<Profile />);
+
+    const profileEmail = screen.getByTestId('profile-email');
+    expect(profileEmail).toBeInTheDocument();
+    expect(profileEmail).toHaveTextContent('trybe@test.com');
 
     const profileLogout = screen.getByTestId('profile-logout-btn');
     userEvent.click(profileLogout);
-    expect(localStorage).clear();
-    expect(history).toBe('/');
+    expect(history.location.pathname).toBe('/');
+  });
 
-    const profileDone = screen.getByTestId('profile-done-btn');
-    expect(profileDone).toBeInTheDocument();
-    userEvent.click(profileDone);
-    expect(history).toBe('/done-recipes');
+  test('Se o email do usuário não estiver no localStorage, deve ser redirecionado para a tela de login', () => {
+    window.localStorage.clear();
+    const { history } = renderWithRouter(<Profile />);
 
-    const profileFavorite = screen.getByTestId('profile-favorite-btn');
-    expect(profileFavorite).toBeInTheDocument();
-
-    userEvent.click(profileFavorite);
-    expect(history).toBe('/favorite-recipes');
+    expect(history.location.pathname).toBe('/');
   });
 });
