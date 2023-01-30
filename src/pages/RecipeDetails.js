@@ -113,10 +113,7 @@ function RecipeDetails({ location: { pathname } }) {
     }
   };
 
-  const handleVideo = (url) => {
-    if (!url) return '';
-    return `https://www.youtube.com/embed/${url.split('/')[3]}`;
-  };
+  const handleVideo = (url) => `https://www.youtube.com/embed/${url.split('/')[3]}`;
 
   const handleCopy = () => {
     copy(`http://localhost:3000${pathname}`);
