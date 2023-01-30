@@ -187,8 +187,9 @@ describe('Testa o componente SearchBar isoladamente', () => {
       userEvent.click(searchButton);
     });
 
-    await new Promise((response) => { setTimeout(response, 100); });
-    expect(spyAlert).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(spyAlert).toHaveBeenCalled();
+    });
   });
 
   test('Se redireciona para a página de detalhes do item se houver somente um item na lista', async () => {
@@ -220,9 +221,10 @@ describe('Testa o componente SearchBar isoladamente', () => {
       userEvent.click(searchButton);
     });
 
-    expect(fetchIsolatedSpy).toHaveBeenCalled();
-    await new Promise((res) => { setTimeout(res, 100); });
-    expect(history.location.pathname).toBe('/drinks/1');
+    await waitFor(async () => {
+      expect(fetchIsolatedSpy).toHaveBeenCalled();
+      expect(history.location.pathname).toBe('/drinks/1');
+    });
   });
 
   test('Se respeita o limite de 12 itens', async () => {

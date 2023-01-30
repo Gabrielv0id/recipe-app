@@ -8,12 +8,14 @@ function FavoriteRecipes() {
   const [filter, setFilter] = useState([]);
 
   useEffect(() => {
+    if (!localStorage.getItem('favoriteRecipes')) return;
     const localData = JSON.parse(localStorage.getItem('favoriteRecipes'));
     setData(localData);
     setFilter(localData);
   }, []);
 
   const handleFilter = ({ target }) => {
+    if (!localStorage.getItem('favoriteRecipes')) return;
     const { textContent } = target;
     if (textContent === 'All') return setFilter(data);
     const value = textContent
