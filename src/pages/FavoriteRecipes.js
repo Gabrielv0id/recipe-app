@@ -13,6 +13,7 @@ function FavoriteRecipes() {
     setData(localData);
     setFilter(localData);
   }, []);
+  console.log(data);
 
   const handleFilter = ({ target }) => {
     if (!localStorage.getItem('favoriteRecipes')) return;

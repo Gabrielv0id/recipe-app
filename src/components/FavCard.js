@@ -24,7 +24,7 @@ function FavCard({ index, recipe, handleUnfavorite }) {
   };
 
   return (
-    <section>
+    <section data-testid="favorite-card">
       <Link to={ `/${type}s/${id}` }>
         <img src={ image } alt={ name } data-testid={ `${index}-horizontal-image` } />
         <h3 data-testid={ `${index}-horizontal-name` }>{name}</h3>
