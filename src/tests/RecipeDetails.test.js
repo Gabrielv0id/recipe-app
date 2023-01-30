@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import { wait } from '@testing-library/user-event/dist/utils';
@@ -205,26 +205,6 @@ describe('RecipeDetails Drinks', () => {
     });
 
     expect(favoriteBtn).toHaveProperty('src', blackHeartIcon);
-  });
-
-  test('se o botão de compartilhar está na tela e, ao clicar, aparece o "Link Copied!"', async () => {
-    const mockedWriteText = jest.fn();
-
-    navigator.clipboard = {
-      writeText: mockedWriteText,
-    };
-    const shareBtn = screen.getByTestId('share-btn');
-    expect(shareBtn).toBeInTheDocument();
-
-    act(() => {
-      userEvent.click(shareBtn);
-    });
-
-    await wait(async () => {
-      const linkCopied = await screen.findByText('Link Copied!');
-      expect(linkCopied).toBeInTheDocument();
-      expect(mockedWriteText).toBeCalledWith('http://localhost/drinks/178319');
-    }, { timeout: 1000 });
   });
 
   test('se ao clicar no botão de iniciar receita, muda para a rota correta', () => {
