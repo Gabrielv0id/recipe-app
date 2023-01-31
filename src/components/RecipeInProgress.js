@@ -18,6 +18,7 @@ export default function RecipeInProgress({ local }) {
   const [favorite, setFavorite] = useState(false);
   const [checkedList,
     setCheckedList] = useState(Array(inProgress.ingredients.length).fill(false));
+  const [disabled, setDisabled] = useState(true);
 
   const history = useHistory();
   useEffect(() => {
@@ -32,10 +33,10 @@ export default function RecipeInProgress({ local }) {
       }
       const ingredients = Object.entries(data)
         .filter(([key, value]) => key.includes('strIngredient') && value)
-        .map(([, value]) => value);
+        .map(([, value]) => value).filter((item) => item !== null);
       const measures = Object.entries(data)
         .filter(([key, value]) => key.includes('strMeasure') && value)
-        .map(([, value]) => value);
+        .map(([, value]) => value).filter((item) => item !== null);
       const newData = { ...data, ingredients, measures };
       setInProgress(newData);
     };
@@ -43,7 +44,13 @@ export default function RecipeInProgress({ local }) {
     fetchIdData();
   }, [type, id]);
 
-  const allChecked = checkedList.every(Boolean);
+  useEffect(() => {
+    const allChecked = checkedList.every((item) => item);
+    if (checkedList.length === inProgress.ingredients.length) {
+      setDisabled(!allChecked);
+    }
+    if (checkedList.length === 0) setDisabled(true);
+  }, [checkedList, inProgress.ingredients.length]);
 
   useEffect(() => {
     const storedCheckedList = JSON
@@ -133,6 +140,40 @@ export default function RecipeInProgress({ local }) {
     setFavorite((prevState) => !prevState);
   };
 
+  const handleFinishRecipe = () => {
+    const date = new Date();
+    const currentDate = date.toISOString();
+    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || [];
+    if (type === 'meals') {
+      const newDoneRecipes = [...doneRecipes, {
+        id: inProgress.idMeal,
+        type: 'meal',
+        nationality: inProgress.strArea,
+        category: inProgress.strCategory,
+        alcoholicOrNot: '',
+        name: inProgress.strMeal,
+        image: inProgress.strMealThumb,
+        doneDate: currentDate,
+        tags: inProgress.strTags ? inProgress.strTags.split(',') : [],
+      }];
+      localStorage.setItem('doneRecipes', JSON.stringify(newDoneRecipes));
+    } else {
+      const newDoneRecipes = [...doneRecipes, {
+        id: inProgress.idDrink,
+        type: 'drink',
+        nationality: '',
+        category: inProgress.strCategory,
+        alcoholicOrNot: inProgress.strAlcoholic,
+        name: inProgress.strDrink,
+        image: inProgress.strDrinkThumb,
+        doneDate: currentDate,
+        tags: [],
+      }];
+      localStorage.setItem('doneRecipes', JSON.stringify(newDoneRecipes));
+    }
+    history.push('/done-recipes');
+  };
+
   return (
     <div>
       <h1 data-testid="recipe-title">{ inProgress.strMeal || inProgress.strDrink }</h1>
@@ -185,8 +226,8 @@ export default function RecipeInProgress({ local }) {
       </button>
       <button
         data-testid="finish-recipe-btn"
-        disabled={ !allChecked }
-        onClick={ () => history.push('/done-recipes') }
+        disabled={ disabled }
+        onClick={ handleFinishRecipe }
       >
         Receita Finalizada
       </button>
