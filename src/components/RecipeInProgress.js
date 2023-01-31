@@ -7,9 +7,9 @@ import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import { handleFetchWithId } from '../services/fetchService';
 
-export default function RecipeInProgress({ local }) {
-  const type = local.split('/')[1];
-  const id = local.split('/')[2];
+export default function RecipeInProgress({ location: { pathname } }) {
+  const type = pathname.split('/')[1];
+  const id = pathname.split('/')[2];
   const [inProgress, setInProgress] = useState({
     ingredients: [],
     measures: [],
@@ -87,7 +87,7 @@ export default function RecipeInProgress({ local }) {
   };
 
   const handleCopy = () => {
-    const url = `http://localhost:3000${local}`;
+    const url = `http://localhost:3000${pathname}`;
     const parts = url.split('/in-progress');
     const result = parts[0];
     copy(result);
@@ -236,5 +236,7 @@ export default function RecipeInProgress({ local }) {
 }
 
 RecipeInProgress.propTypes = {
-  local: PropTypes.string.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }).isRequired,
 };

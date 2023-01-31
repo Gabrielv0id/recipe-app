@@ -110,3 +110,27 @@ export const favoriteMock = [
     image: 'https://www.themealdb.com/images/media/meals/58oia61564916529.jpg',
   },
 ];
+
+export const doneMock = [
+  {
+    id: '53060',
+    type: 'meal',
+    nationality: 'Croatian',
+    category: 'Side',
+    alcoholicOrNot: '',
+    name: 'Burek',
+    image: 'https://www.themealdb.com/images/media/meals/tkxquw1628771028.jpg',
+    doneDate: '2023-01-31T13:07:24.396Z',
+    tags: ['Streetfood', ' Onthego'] },
+  {
+    id: '178319',
+    type: 'drink',
+    nationality: '',
+    category: 'Cocktail',
+    alcoholicOrNot: 'Alcoholic',
+    name: 'Aquamarine',
+    image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
+    doneDate: '2023-01-31T13:07:53.789Z',
+    tags: ['Cocktail', 'Alcohol'],
+  },
+];

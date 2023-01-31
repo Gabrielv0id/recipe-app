@@ -16,6 +16,8 @@ function FavCard({ index, recipe, handleUnfavorite }) {
     name,
     image,
     nationality,
+    doneDate,
+    tags,
   } = recipe;
 
   const handleShare = () => {
@@ -34,26 +36,34 @@ function FavCard({ index, recipe, handleUnfavorite }) {
       >
         {alcoholicOrNot ? `${alcoholicOrNot}` : `${nationality} - ${category}`}
       </p>
+      { doneDate && <p data-testid={ `${index}-horizontal-done-date` }>{doneDate}</p> }
       <div>
         <button type="button" onClick={ handleShare }>
           <img
             src={ shareIcon }
-            alt="placeholder"
+            alt="share"
             data-testid={ `${index}-horizontal-share-btn` }
           />
         </button>
         <button type="button" onClick={ () => handleUnfavorite(id) }>
           <img
             src={ blackHeartIcon }
-            alt="placeholder"
+            alt="unfavorite"
             data-testid={ `${index}-horizontal-favorite-btn` }
           />
         </button>
+        {copied && <p>Link copied!</p>}
       </div>
-      {copied && <p>Link copied!</p>}
+      {tags && tags.map((tag, i) => (
+        <span key={ i } data-testid={ `${index}-${tag}-horizontal-tag` }>{tag}</span>
+      ))}
     </section>
   );
 }
+
+FavCard.defaultProps = {
+  handleUnfavorite: () => {},
+};
 
 FavCard.propTypes = {
   index: PropTypes.number.isRequired,
@@ -65,8 +75,10 @@ FavCard.propTypes = {
     name: PropTypes.string,
     image: PropTypes.string,
     nationality: PropTypes.string,
+    doneDate: PropTypes.string,
+    tags: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
-  handleUnfavorite: PropTypes.func.isRequired,
+  handleUnfavorite: PropTypes.func,
 };
 
 export default FavCard;
