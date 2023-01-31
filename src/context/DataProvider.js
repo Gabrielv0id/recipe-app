@@ -9,6 +9,10 @@ function DataProvider({ children }) {
   const [recipes, setRecipes] = useState([]);
   const [buttons, setButtons] = useState([]);
   const [recipesDB, setRecipesDB] = useState([]);
+  const [recipe, setRecipe] = useState({
+    ingredients: [],
+    measures: [],
+  });
 
   const value = useMemo(
     () => (
@@ -19,8 +23,13 @@ function DataProvider({ children }) {
         buttons,
         setButtons,
         recipesDB,
-        setRecipesDB }),
-    [user, setUser, recipes, setRecipes, buttons, setButtons, recipesDB, setRecipesDB],
+        setRecipesDB,
+        recipe,
+        setRecipe }),
+    [user,
+      setUser,
+      recipes,
+      setRecipes, buttons, setButtons, recipesDB, setRecipesDB, recipe, setRecipe],
   );
 
   return (

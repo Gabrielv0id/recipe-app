@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import Carousel from '../components/Carousel';
+import DataContext from '../context/DataContext';
 import { handleFetchWithId, handleRecommendations } from '../services/fetchService';
 import shareIcon from '../images/shareIcon.svg';
 import favoriteIcon from '../images/blackHeartIcon.svg';
@@ -13,12 +14,10 @@ function RecipeDetails({ location: { pathname } }) {
   const [favorite, setFavorite] = useState(false);
   const [recommendations, setRecommendations] = useState([]);
   const [inProgress, setInProgress] = useState(false);
-  const [recipe, setRecipe] = useState({
-    ingredients: [],
-    measures: [],
-  });
   const type = pathname.split('/')[1];
   const id = pathname.split('/')[2];
+
+  const { recipe, setRecipe } = useContext(DataContext);
 
   const history = useHistory();
 

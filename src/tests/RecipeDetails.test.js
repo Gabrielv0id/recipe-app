@@ -5,6 +5,7 @@ import { wait } from '@testing-library/user-event/dist/utils';
 import renderWithRouter from './utils/renderWithRouter';
 import { mealMock, drinkMock } from './mocks/mockData';
 import RecipeDetails from '../pages/RecipeDetails';
+import DataProvider from '../context/DataProvider';
 
 const spyFetch = jest.spyOn(global, 'fetch');
 const mealPath = '/meals/52771';
@@ -22,9 +23,12 @@ describe('RecipeDetails', () => {
       json: jest.fn().mockResolvedValue(mealMock),
     });
     await act(async () => {
-      const component = renderWithRouter(<RecipeDetails
-        location={ { pathname: mealPath } }
-      />, [mealPath]);
+      const component = renderWithRouter(
+        <DataProvider>
+          <RecipeDetails location={ { pathname: mealPath } } />
+        </DataProvider>,
+        [mealPath],
+      );
       history = component.history;
       rerender = component.rerender;
     });
@@ -74,9 +78,11 @@ describe('RecipeDetails', () => {
     expect(favoriteBtn).toHaveProperty('src', blackHeartIcon);
 
     act(() => {
-      rerender(<RecipeDetails
-        location={ { pathname: mealPath } }
-      />);
+      rerender(
+        <DataProvider>
+          <RecipeDetails location={ { pathname: mealPath } } />
+        </DataProvider>,
+      );
     });
 
     expect(favoriteBtn).toHaveProperty('src', blackHeartIcon);
@@ -139,9 +145,12 @@ describe('RecipeDetails Drinks', () => {
       json: jest.fn().mockResolvedValue(drinkMock),
     });
     await act(async () => {
-      const component = renderWithRouter(<RecipeDetails
-        location={ { pathname: drinkPath } }
-      />, [drinkPath]);
+      const component = renderWithRouter(
+        <DataProvider>
+          <RecipeDetails location={ { pathname: drinkPath } } />
+        </DataProvider>,
+        [drinkPath],
+      );
       history = component.history;
       rerender = component.rerender;
     });
@@ -199,9 +208,11 @@ describe('RecipeDetails Drinks', () => {
     });
 
     act(() => {
-      rerender(<RecipeDetails
-        location={ { pathname: drinkPath } }
-      />);
+      rerender(
+        <DataProvider>
+          <RecipeDetails location={ { pathname: drinkPath } } />
+        </DataProvider>,
+      );
     });
 
     expect(favoriteBtn).toHaveProperty('src', blackHeartIcon);
