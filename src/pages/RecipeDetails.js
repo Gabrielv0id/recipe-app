@@ -16,6 +16,7 @@ function RecipeDetails({ location: { pathname } }) {
   const [inProgress, setInProgress] = useState(false);
   const type = pathname.split('/')[1];
   const id = pathname.split('/')[2];
+
   const { recipe, setRecipe } = useContext(DataContext);
 
   const history = useHistory();
