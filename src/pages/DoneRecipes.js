@@ -1,9 +1,41 @@
+import { useEffect, useState } from 'react';
 import Header from '../components/Header';
+import FavPageButtons from '../components/FavPageButtons';
+import FavCard from '../components/FavCard';
 
 function DoneRecipes() {
+  const [data, setData] = useState([]);
+  const [filter, setFilter] = useState([]);
+
+  useEffect(() => {
+    if (!localStorage.doneRecipes) return;
+    const recipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    setData(recipes);
+    setFilter(recipes);
+  }, []);
+
+  const handleFilter = ({ target }) => {
+    if (!localStorage.getItem('doneRecipes')) return;
+    const { textContent } = target;
+    if (textContent === 'All') return setFilter(data);
+    const value = textContent
+      .slice(0, 1).toLowerCase() + textContent.slice(1, textContent.length - 1);
+    console.log(value);
+    const newData = data.filter((recipe) => recipe.type === value);
+    setFilter(newData);
+  };
+
   return (
     <section>
       <Header title="Done Recipes" profile />
+      <FavPageButtons handleFilter={ handleFilter } />
+      {filter.map((recipe, index) => (
+        <FavCard
+          key={ index }
+          index={ index }
+          recipe={ recipe }
+        />
+      ))}
     </section>
   );
 }
