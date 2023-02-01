@@ -40,10 +40,11 @@ describe('Testa a tela principal', () => {
     const passwordInput = screen.getByTestId('password-input');
     const loginButton = screen.getByTestId('login-submit-btn');
 
-    userEvent.type(emailInput, email);
-    userEvent.type(passwordInput, password);
-
-    userEvent.click(loginButton);
+    act(() => {
+      userEvent.type(emailInput, email);
+      userEvent.type(passwordInput, password);
+      userEvent.click(loginButton);
+    });
   });
 
   test('se a rota que esta atualmente', () => {
@@ -80,7 +81,7 @@ describe('Testa a tela principal', () => {
       const cardImg = screen.getByTestId(recipeImgFilter);
       const cardTitle = screen.getByTestId(recipeTitleFilter);
 
-      userEvent.click(vegetarianBtn);
+      act(() => userEvent.click(vegetarianBtn));
 
       expect(card).toBeInTheDocument();
       expect(cardImg).toBeInTheDocument();
@@ -95,7 +96,7 @@ describe('Testa a tela principal', () => {
       const cardImg = screen.getByTestId(recipeImgFilter);
       const cardTitle = screen.getByTestId(recipeTitleFilter);
 
-      userEvent.click(seafoodBtn);
+      act(() => userEvent.click(seafoodBtn));
 
       expect(card).toBeInTheDocument();
       expect(cardImg).toBeInTheDocument();
@@ -113,7 +114,7 @@ describe('Testa a tela principal', () => {
       const cardImg2 = screen.getByTestId(recipeImgFilter2);
       const cardTitle2 = screen.getByTestId(recipeTitleFilter2);
 
-      userEvent.click(allBtn);
+      act(() => userEvent.click(allBtn));
 
       expect(card).toBeInTheDocument();
       expect(cardImg).toBeInTheDocument();
@@ -128,7 +129,7 @@ describe('Testa a tela principal', () => {
     await waitFor(async () => {
       const card = screen.getByTestId(recipeCardFilter);
 
-      userEvent.click(card);
+      act(() => userEvent.click(card));
     });
 
     const { pathname } = history.location;

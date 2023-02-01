@@ -13,7 +13,6 @@ function FavoriteRecipes() {
     setData(localData);
     setFilter(localData);
   }, []);
-  console.log(data);
 
   const handleFilter = ({ target }) => {
     if (!localStorage.getItem('favoriteRecipes')) return;
@@ -21,7 +20,6 @@ function FavoriteRecipes() {
     if (textContent === 'All') return setFilter(data);
     const value = textContent
       .slice(0, 1).toLowerCase() + textContent.slice(1, textContent.length - 1);
-    console.log(value);
     const newData = data.filter((recipe) => recipe.type === value);
     setFilter(newData);
   };

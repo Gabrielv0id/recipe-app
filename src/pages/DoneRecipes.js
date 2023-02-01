@@ -10,7 +10,6 @@ function DoneRecipes() {
   useEffect(() => {
     if (!localStorage.doneRecipes) return;
     const recipes = JSON.parse(localStorage.getItem('doneRecipes'));
-    console.log(recipes);
     setData(recipes);
     setFilter(recipes);
   }, []);
@@ -21,7 +20,6 @@ function DoneRecipes() {
     if (textContent === 'All') return setFilter(data);
     const value = textContent
       .slice(0, 1).toLowerCase() + textContent.slice(1, textContent.length - 1);
-    console.log(value);
     const newData = data.filter((recipe) => recipe.type === value);
     setFilter(newData);
   };

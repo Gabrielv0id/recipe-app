@@ -1,6 +1,7 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { act } from 'react-dom/test-utils';
 import App from '../App';
 import renderWithRouter from './utils/renderWithRouter';
 import DataProvider from '../context/DataProvider';
@@ -23,10 +24,11 @@ describe('Testes do component Header', () => {
     const passwordInput = screen.getByTestId('password-input');
     const loginButton = screen.getByTestId('login-submit-btn');
 
-    userEvent.type(emailInput, email);
-    userEvent.type(passwordInput, password);
-
-    userEvent.click(loginButton);
+    act(() => {
+      userEvent.type(emailInput, email);
+      userEvent.type(passwordInput, password);
+      userEvent.click(loginButton);
+    });
   });
 
   test('se o titulo da pagina é Meals', () => {
@@ -38,7 +40,7 @@ describe('Testes do component Header', () => {
     const profileButton = screen.getByTestId('profile-top-btn');
     expect(profileButton).toBeInTheDocument();
 
-    userEvent.click(profileButton);
+    act(() => userEvent.click(profileButton));
     expect(history.location.pathname).toBe('/profile');
   });
 
@@ -46,7 +48,7 @@ describe('Testes do component Header', () => {
     const searchButton = screen.getByTestId('search-top-btn');
     expect(searchButton).toBeInTheDocument();
 
-    userEvent.click(searchButton);
+    act(() => userEvent.click(searchButton));
     const searchInput = screen.getByTestId('search-input');
     expect(searchInput).toBeInTheDocument();
   });

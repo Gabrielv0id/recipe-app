@@ -1,5 +1,6 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { act } from 'react-dom/test-utils';
 import renderWithRouter from './utils/renderWithRouter';
 import { favoriteMock } from './mocks/mockData';
 import FavoriteRecipes from '../pages/FavoriteRecipes';
@@ -84,15 +85,15 @@ describe('FavoriteRecipes', () => {
     const favoriteRecipes = screen.getAllByTestId(favoriteCardStr);
     expect(favoriteRecipes).toHaveLength(2);
 
-    userEvent.click(foodFilter);
+    act(() => userEvent.click(foodFilter));
     const favoriteFoodRecipes = screen.getAllByTestId(favoriteCardStr);
     expect(favoriteFoodRecipes).toHaveLength(1);
 
-    userEvent.click(drinkFilter);
+    act(() => userEvent.click(drinkFilter));
     const favoriteDrinkRecipes = screen.getAllByTestId(favoriteCardStr);
     expect(favoriteDrinkRecipes).toHaveLength(1);
 
-    userEvent.click(allFilter);
+    act(() => userEvent.click(allFilter));
     const favoriteAllRecipes = screen.getAllByTestId(favoriteCardStr);
     expect(favoriteAllRecipes).toHaveLength(2);
   });
@@ -108,7 +109,7 @@ describe('FavoriteRecipes', () => {
     const favoriteBtn = screen.getAllByTestId(/horizontal-favorite-btn/i);
     expect(favoriteBtn).toHaveLength(2);
 
-    userEvent.click(favoriteBtn[0]);
+    act(() => userEvent.click(favoriteBtn[0]));
     const favoriteRecipesAfter = screen.getAllByTestId(favoriteCardStr);
     expect(favoriteRecipesAfter).toHaveLength(1);
   });
@@ -156,15 +157,15 @@ describe('FavoriteRecipes localStorage vazia', () => {
     const favoriteRecipes = screen.queryAllByTestId(favoriteCardStr);
     expect(favoriteRecipes).toHaveLength(0);
 
-    userEvent.click(foodFilter);
+    act(() => userEvent.click(foodFilter));
     const favoriteFoodRecipes = screen.queryAllByTestId(favoriteCardStr);
     expect(favoriteFoodRecipes).toHaveLength(0);
 
-    userEvent.click(drinkFilter);
+    act(() => userEvent.click(drinkFilter));
     const favoriteDrinkRecipes = screen.queryAllByTestId(favoriteCardStr);
     expect(favoriteDrinkRecipes).toHaveLength(0);
 
-    userEvent.click(allFilter);
+    act(() => userEvent.click(allFilter));
     const favoriteAllRecipes = screen.queryAllByTestId(favoriteCardStr);
     expect(favoriteAllRecipes).toHaveLength(0);
   });

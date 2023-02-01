@@ -1,5 +1,6 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { act } from 'react-dom/test-utils';
 import renderWithRouter from './utils/renderWithRouter';
 import { doneMock } from './mocks/mockData';
 import DoneRecipes from '../pages/DoneRecipes';
@@ -39,17 +40,17 @@ describe('DoneRecipes', () => {
     const allCards = screen.getAllByTestId(/favorite-card/i);
     expect(allCards.length).toBe(2);
 
-    userEvent.click(foodFilter);
+    act(() => userEvent.click(foodFilter));
 
     const foodCards = screen.getAllByTestId(/favorite-card/i);
     expect(foodCards.length).toBe(1);
 
-    userEvent.click(drinkFilter);
+    act(() => userEvent.click(drinkFilter));
 
     const drinkCards = screen.getAllByTestId(/favorite-card/i);
     expect(drinkCards.length).toBe(1);
 
-    userEvent.click(allFilter);
+    act(() => userEvent.click(allFilter));
 
     const allCardsAgain = screen.getAllByTestId(/favorite-card/i);
     expect(allCardsAgain.length).toBe(2);
@@ -67,17 +68,17 @@ describe('DoneRecipes sem localStorage', () => {
     const allCards = screen.queryAllByTestId(/favorite-card/i);
     expect(allCards.length).toBe(0);
 
-    userEvent.click(foodFilter);
+    act(() => userEvent.click(foodFilter));
 
     const foodCards = screen.queryAllByTestId(/favorite-card/i);
     expect(foodCards.length).toBe(0);
 
-    userEvent.click(drinkFilter);
+    act(() => userEvent.click(drinkFilter));
 
     const drinkCards = screen.queryAllByTestId(/favorite-card/i);
     expect(drinkCards.length).toBe(0);
 
-    userEvent.click(allFilter);
+    act(() => userEvent.click(allFilter));
 
     const allCardsAgain = screen.queryAllByTestId(/favorite-card/i);
     expect(allCardsAgain.length).toBe(0);

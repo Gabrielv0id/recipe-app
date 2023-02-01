@@ -1,6 +1,7 @@
 import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { act } from 'react-dom/test-utils';
 import FavCard from '../components/FavCard';
 import renderWithRouter from './utils/renderWithRouter';
 
@@ -16,7 +17,7 @@ describe('FavCard component', () => {
     nationality: 'Cuban',
   };
 
-  it('renders correctly', () => {
+  it('Renderiza o component', () => {
     renderWithRouter(<FavCard
       index={ 0 }
       recipe={ mockRecipe }
@@ -41,7 +42,7 @@ describe('FavCard component', () => {
     expect(unfavoriteBtn).toBeInTheDocument();
   });
 
-  it('handles sharing correctly', async () => {
+  it('se copia corretamente', async () => {
     const mockedWriteText = jest.fn();
 
     navigator.clipboard = {
@@ -55,12 +56,13 @@ describe('FavCard component', () => {
     />);
 
     const shareBtn = screen.getByRole('button', { name: 'share' });
-    userEvent.click(shareBtn);
+
+    act(() => userEvent.click(shareBtn));
 
     await waitFor(() => expect(screen.getByText('Link copied!')).toBeInTheDocument());
   });
 
-  it('handles unfavoriting correctly', () => {
+  it('se remove dos favoritos', () => {
     renderWithRouter(<FavCard
       index={ 0 }
       recipe={ mockRecipe }
@@ -68,7 +70,8 @@ describe('FavCard component', () => {
     />);
 
     const unfavoriteBtn = screen.getByRole('button', { name: 'unfavorite' });
-    userEvent.click(unfavoriteBtn);
+
+    act(() => userEvent.click(unfavoriteBtn));
 
     expect(mockHandleUnfavorite).toHaveBeenCalledWith(mockRecipe.id);
   });

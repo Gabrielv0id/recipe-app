@@ -37,10 +37,11 @@ describe('Testa o componente SearchBar e...', () => {
     const passwordInput = screen.getByTestId('password-input');
     const loginButton = screen.getByTestId('login-submit-btn');
 
-    userEvent.type(emailInput, email);
-    userEvent.type(passwordInput, password);
-
-    userEvent.click(loginButton);
+    act(() => {
+      userEvent.type(emailInput, email);
+      userEvent.type(passwordInput, password);
+      userEvent.click(loginButton);
+    });
   });
   test('verifica se o titulo da pagina é Meals', async () => {
     const heading = screen.getByRole('heading', { name: /meals/i });
@@ -48,7 +49,7 @@ describe('Testa o componente SearchBar e...', () => {
   });
   test('verifica se os radio buttons funcionam corretamente', () => {
     const headerSearchButton = screen.getByTestId(searchTopBtnStr);
-    userEvent.click(headerSearchButton);
+    act(() => userEvent.click(headerSearchButton));
 
     const testText = 'chicken';
 
@@ -57,16 +58,19 @@ describe('Testa o componente SearchBar e...', () => {
     const nameRadio = screen.getByTestId(searchName);
     const firstLetterRadio = screen.getByTestId('first-letter-search-radio');
     const searchButton = screen.getByTestId(searchBtn);
-    userEvent.type(searchInput, testText);
-    userEvent.click(ingredientRadio);
-    userEvent.click(searchButton);
-    userEvent.click(nameRadio);
-    userEvent.click(searchButton);
-    userEvent.click(firstLetterRadio);
+
+    act(() => {
+      userEvent.type(searchInput, testText);
+      userEvent.click(ingredientRadio);
+      userEvent.click(searchButton);
+      userEvent.click(nameRadio);
+      userEvent.click(searchButton);
+      userEvent.click(firstLetterRadio);
+    });
 
     const spy = jest.spyOn(global, 'alert');
 
-    userEvent.click(searchButton);
+    act(() => userEvent.click(searchButton));
 
     expect(spy).toHaveBeenCalled();
     expect(spy).toHaveBeenCalledWith('Your search must have only 1 (one) character');
@@ -74,7 +78,7 @@ describe('Testa o componente SearchBar e...', () => {
 
   test('verifica se a busca por nome funciona corretamente', async () => {
     const headerSearchButton = screen.getByTestId(searchTopBtnStr);
-    userEvent.click(headerSearchButton);
+    act(() => userEvent.click(headerSearchButton));
 
     const testText = 'chicken';
 
@@ -82,11 +86,13 @@ describe('Testa o componente SearchBar e...', () => {
     const nameRadio = screen.getByTestId(searchName);
     const searchButton = screen.getByTestId(searchBtn);
 
-    userEvent.click(nameRadio);
-    userEvent.type(searchInput, testText);
+    act(() => {
+      userEvent.click(nameRadio);
+      userEvent.type(searchInput, testText);
+    });
 
     await wait(async () => {
-      userEvent.click(searchButton);
+      act(() => userEvent.click(searchButton));
       expect(history.location.pathname).toBe('/meals');
 
       const mealCard = await screen.findByTestId('0-recipe-card');
@@ -96,7 +102,7 @@ describe('Testa o componente SearchBar e...', () => {
 
   test('verifica se vai para pagina caso so uma receita', async () => {
     const headerSearchButton = screen.getByTestId(searchTopBtnStr);
-    userEvent.click(headerSearchButton);
+    act(() => userEvent.click(headerSearchButton));
 
     const testText = 'Corba';
 
@@ -104,11 +110,11 @@ describe('Testa o componente SearchBar e...', () => {
     const nameRadio = screen.getByTestId(searchName);
     const searchButton = screen.getByTestId(searchBtn);
 
-    userEvent.click(nameRadio);
-    userEvent.type(searchInput, testText);
+    act(() => userEvent.click(nameRadio));
+    act(() => userEvent.type(searchInput, testText));
 
     await wait(async () => {
-      userEvent.click(searchButton);
+      act(() => userEvent.click(searchButton));
       expect(history.location.pathname).toBe('/comidas/52977');
     });
   });
@@ -139,7 +145,7 @@ describe('Testa o componente SearchBar e com drinks', () => {
 
   test('verifica se a busca por nome funciona corretamente', async () => {
     const headerSearchButton = screen.getByTestId(searchTopBtnStr);
-    userEvent.click(headerSearchButton);
+    act(() => userEvent.click(headerSearchButton));
 
     const testText = 'aquamarine';
 
@@ -147,11 +153,13 @@ describe('Testa o componente SearchBar e com drinks', () => {
     const nameRadio = screen.getByTestId(searchName);
     const searchButton = screen.getByTestId(searchBtn);
 
-    userEvent.click(nameRadio);
-    userEvent.type(searchInput, testText);
+    act(() => {
+      userEvent.click(nameRadio);
+      userEvent.type(searchInput, testText);
+    });
 
     await waitFor(async () => {
-      userEvent.click(searchButton);
+      act(() => userEvent.click(searchButton));
       expect(history.location.pathname).toBe('/drinks');
 
       const mealCard = await screen.findByTestId('0-recipe-card');

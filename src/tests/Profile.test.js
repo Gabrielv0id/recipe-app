@@ -1,6 +1,7 @@
 import React from 'react';
 import { screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
+import { act } from 'react-dom/test-utils';
 import Profile from '../pages/Profile';
 import renderWithRouter from './utils/renderWithRouter';
 
@@ -21,7 +22,7 @@ describe('Testando storage da pagina perfil', () => {
     expect(profileEmail).toHaveTextContent('trybe@test.com');
 
     const profileLogout = screen.getByTestId('profile-logout-btn');
-    userEvent.click(profileLogout);
+    act(() => userEvent.click(profileLogout));
     expect(history.location.pathname).toBe('/');
   });
 
