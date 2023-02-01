@@ -51,10 +51,11 @@ function FavCard({ index, recipe, handleUnfavorite }) {
             alt="unfavorite"
             data-testid={ `${index}-horizontal-favorite-btn` }
           />
+          {copied && <p>Link copied!</p>}
         </button>
         {copied && <p>Link copied!</p>}
       </div>
-      {tags && tags.map((tag, i) => (
+      { tags && tags.map((tag, i) => (
         <span key={ i } data-testid={ `${index}-${tag}-horizontal-tag` }>{tag}</span>
       ))}
     </section>
@@ -75,8 +76,8 @@ FavCard.propTypes = {
     name: PropTypes.string,
     image: PropTypes.string,
     nationality: PropTypes.string,
-    doneDate: PropTypes.string,
     tags: PropTypes.arrayOf(PropTypes.string),
+    doneDate: PropTypes.string,
   }).isRequired,
   handleUnfavorite: PropTypes.func,
 };

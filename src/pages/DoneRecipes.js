@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import FavCard from '../components/FavCard';
-import FavPageButtons from '../components/FavPageButtons';
 import Header from '../components/Header';
+import FavPageButtons from '../components/FavPageButtons';
+import FavCard from '../components/FavCard';
 
 function DoneRecipes() {
   const [data, setData] = useState([]);
@@ -29,7 +29,11 @@ function DoneRecipes() {
       <Header title="Done Recipes" profile />
       <FavPageButtons handleFilter={ handleFilter } />
       {filter.map((recipe, index) => (
-        <FavCard key={ index } index={ index } recipe={ recipe } />
+        <FavCard
+          key={ index }
+          index={ index }
+          recipe={ recipe }
+        />
       ))}
     </section>
   );
