@@ -81,7 +81,7 @@ function RecipeDetails({ location: { pathname } }) {
     };
 
     fetchIdData();
-  }, [type, id]);
+  }, [type, id, setRecipe]);
 
   const handleStart = () => {
     const { idMeal, idDrink, ingredients } = recipe;

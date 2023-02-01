@@ -59,7 +59,9 @@ describe('FavCard component', () => {
 
     act(() => userEvent.click(shareBtn));
 
-    await waitFor(() => expect(screen.getByText('Link copied!')).toBeInTheDocument());
+    const linkCopied = await screen.findAllByText('Link copied!');
+
+    await waitFor(() => expect(linkCopied[0]).toBeInTheDocument());
   });
 
   it('se remove dos favoritos', () => {
