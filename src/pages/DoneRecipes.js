@@ -1,17 +1,17 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import FavPageButtons from '../components/FavPageButtons';
+import FavCard from '../components/FavCard';
 
 function DoneRecipes() {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState([]);
 
   useEffect(() => {
-    if (!localStorage.getItem('doneRecipes')) return;
-    const localData = JSON.parse(localStorage.getItem('doneRecipes'));
-    setData(localData);
-    setFilter(localData);
+    if (!localStorage.doneRecipes) return;
+    const recipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    setData(recipes);
+    setFilter(recipes);
   }, []);
 
   const handleFilter = ({ target }) => {
@@ -30,29 +30,14 @@ function DoneRecipes() {
       <Header title="Done Recipes" profile />
       <FavPageButtons handleFilter={ handleFilter } />
       {filter.map((recipe, index) => (
-        <DoneRecipes key={ index } index={ index } recipe={ recipe } />
+        <FavCard
+          key={ index }
+          index={ index }
+          recipe={ recipe }
+        />
       ))}
     </section>
   );
 }
 
-DoneRecipes.defaultProps = {
-  // handleUnfavorite: () => { },
-};
-
 export default DoneRecipes;
-DoneRecipes.propTypes = {
-  // index: PropTypes.number.isRequired,
-  recipe: PropTypes.shape({
-    id: PropTypes.string,
-    type: PropTypes.string,
-    category: PropTypes.string,
-    alcoholicOrNot: PropTypes.string,
-    name: PropTypes.string,
-    image: PropTypes.string,
-    nationality: PropTypes.string,
-    tags: PropTypes.arrayOf(PropTypes.string),
-    doneDate: PropTypes.string,
-  }).isRequired,
-  // handleUnfavorite: PropTypes.func,
-};
