@@ -1,30 +1,9 @@
-img {
-  max-width: 100%;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-.carousel-scroll {
-  display: grid;
-  grid-auto-columns: 50%;
-  grid-auto-flow: column;
-  overflow-x: auto;
-  overscroll-behavior-inline: contain;
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
-.snaps {
-  scroll-padding: 0 0 0 0;
-  scroll-snap-type: inline mandatory;
-}
-
-.snaps > * {
-  scroll-snap-align: start;
-}
-
-.recipe-btn {
-  position: fixed;
-  bottom: 0;
-}
-
-.active {
-  text-decoration:  line-through solid rgb(0, 0, 0)
-}
-

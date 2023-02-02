@@ -8,10 +8,12 @@
   "dependencies": {
     "bootstrap": "^5.2.3",
     "clipboard-copy": "^4.0.1",
+    "daisyui": "^2.50.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.7.1",
     "react-router-dom": "^5.3.4",
     "react-scripts": "^5.0.1"
   },
@@ -55,7 +57,8 @@
     "mochawesome-merge": "^4.2.2",
     "mochawesome-report-generator": "^6.2.0",
     "stylelint": "^14.16.1",
-    "stylelint-order": "^5.0.0"
+    "stylelint-order": "^5.0.0",
+    "tailwindcss": "^3.2.4"
   },
   "jest": {
     "coveragePathIgnorePatterns": [

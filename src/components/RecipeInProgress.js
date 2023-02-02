@@ -2,9 +2,8 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import copy from 'clipboard-copy';
 import { useHistory } from 'react-router-dom';
-import shareIcon from '../images/shareIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
+import { IoMdHeartEmpty, IoMdHeart } from 'react-icons/io';
+import { IoShareSocial } from 'react-icons/io5';
 import { handleFetchWithId } from '../services/fetchService';
 
 export default function RecipeInProgress({ location: { pathname } }) {
@@ -175,63 +174,79 @@ export default function RecipeInProgress({ location: { pathname } }) {
   };
 
   return (
-    <div>
-      <h1 data-testid="recipe-title">{ inProgress.strMeal || inProgress.strDrink }</h1>
-      <img
-        data-testid="recipe-photo"
-        src={ inProgress.strMealThumb || inProgress.strDrinkThumb }
-        alt={ inProgress.strMeal || inProgress.strDrink }
-      />
-      <h2 data-testid="recipe-category">
-        { inProgress.strAlcoholic || inProgress.strCategory }
-      </h2>
-      {inProgress.ingredients.map((ingredient, index) => (
-        <label
-          htmlFor={ ingredient }
-          key={ ingredient }
-          data-testid={ `${index}-ingredient-step` }
-          className={ checkedList[index] ? 'active' : '' }
+    <section className="flex flex-col w-full">
+      <div>
+        <h1
+          data-testid="recipe-title"
+          className="absolute text-6xl text-white font-bold top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-44"
         >
-          <input
-            type="checkbox"
-            name={ ingredient }
-            id={ ingredient }
-            checked={ checkedList[index] }
-            onChange={ () => changeValue(index) }
-          />
-          {`${ingredient} - ${inProgress.measures[index]}`}
-        </label>
-      ))}
-
-      <hr />
-      <h3>Instructions</h3>
-      <p data-testid="instructions">{ inProgress.strInstructions }</p>
-      <hr />
-      {linkCopied && (
-        <div>
-          <span>Link copied!</span>
-        </div>
-      )}
-      <button
-        onClick={ handleCopy }
-      >
-        <img src={ shareIcon } alt="share" data-testid="share-btn" />
-      </button>
-      <button onClick={ favorite ? handleRemoveFavorite : handleFavorite }>
+          { inProgress.strMeal || inProgress.strDrink }
+        </h1>
         <img
-          src={ favorite ? blackHeartIcon : whiteHeartIcon }
-          alt="favorite"
-          data-testid="favorite-btn"
+          data-testid="recipe-photo"
+          src={ inProgress.strMealThumb || inProgress.strDrinkThumb }
+          alt={ inProgress.strMeal || inProgress.strDrink }
         />
-      </button>
+        <h2
+          data-testid="recipe-category"
+          className="absolute text-xl text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-28"
+        >
+          { inProgress.strAlcoholic || inProgress.strCategory }
+        </h2>
+        <div className="absolute top-0 right-0 m-2 space-x-2">
+          <button onClick={ handleCopy }>
+            <IoShareSocial data-testid="share-btn" className="text-yellow-400 font-bold text-4xl" />
+          </button>
+          <button
+            onClick={ favorite ? handleRemoveFavorite : handleFavorite }
+          >
+            {favorite ? <IoMdHeart className="text-yellow-400 font-bold text-4xl" /> : <IoMdHeartEmpty className="text-yellow-400 font-bold text-4xl" /> }
+          </button>
+        </div>
+        {linkCopied && (
+          <div className="absolute top-2 left-2">
+            <div className="flex justify-center items-center gap-2 p-2 bg-success w-full rounded-md text-center font-bold shadow-2xl">
+              <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <span>Link copied!</span>
+            </div>
+          </div>
+        )}
+      </div>
+      <h3 className="text-xl font-bold m-2 px-1">Ingredients</h3>
+      <div className="border rounded-md flex flex-col m-2 p-2">
+        {inProgress.ingredients.map((ingredient, index) => (
+          <label
+            htmlFor={ ingredient }
+            key={ ingredient }
+            data-testid={ `${index}-ingredient-step` }
+            className={ checkedList[index] ? 'active flex flex-row gap-2' : 'flex flex-row gap-2' }
+          >
+            <input
+              type="checkbox"
+              name={ ingredient }
+              id={ ingredient }
+              checked={ checkedList[index] }
+              className="checkbox checkbox-warning checkbox-sm"
+              onChange={ () => changeValue(index) }
+            />
+            <p>
+              {`${ingredient} - ${inProgress.measures[index]}`}
+            </p>
+          </label>
+        ))}
+      </div>
+      <div className="divider" />
+      <h3 className="text-xl font-bold m-2 px-1">Instructions</h3>
+      <p data-testid="instructions" className="border rounded-md m-2 p-2">{ inProgress.strInstructions }</p>
       <button
         data-testid="finish-recipe-btn"
         disabled={ disabled }
         onClick={ handleFinishRecipe }
+        className="my-4 w-10/12 bg-yellow-400 text-white font-bold py-2 px-4 uppercase mx-auto rounded"
       >
         Receita Finalizada
       </button>
-    </div>
+    </section>
   );
 }
 

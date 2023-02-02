@@ -25,7 +25,7 @@ function Recipes({ type }) {
   if (recipes.length > MAXRECIPES) limitRecipes = recipes.slice(0, MAXRECIPES);
 
   return (
-    <section>
+    <section className="m-2 grid grid-cols-2 gap-2">
       {limitRecipes && limitRecipes.map((recipe, index) => (
         <Link
           to={ `/${type}/${recipe.idMeal || recipe.idDrink}` }

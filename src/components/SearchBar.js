@@ -53,51 +53,69 @@ function SearchBar({ type }) {
   const { search } = searchData;
 
   return (
-    <form onSubmit={ handleSubmit }>
+    <form onSubmit={ handleSubmit } className="flex flex-col gap-2 justify-center itemces-center border bg-purple-800 m-2 w-full max-w-xs mx-auto rounded-lg">
       <input
         type="text"
         placeholder="Pesquisar"
         name="search"
         value={ search }
         data-testid="search-input"
+        className="input input-bordered input-primary w-full max-w-xs"
         onChange={ handleChange }
       />
-      <div>
-        <label htmlFor="ingredient-search-radio">
+      <div className="flex flex-row gap-2 justify-center items-center">
+        <label
+          htmlFor="ingredient-search-radio"
+          className="flex items-center justify-center gap-1 text-white text-xs"
+        >
           <input
             type="radio"
             id="ingredient-search-radio"
             name="filter"
             value="ingredient"
             data-testid="ingredient-search-radio"
+            className="radio radio-warning radio-xs"
             onChange={ handleChange }
           />
-          Ingredient
+          <span>Ingredient</span>
         </label>
-        <label htmlFor="name-search-radio">
+        <label
+          htmlFor="name-search-radio"
+          className="flex items-center justify-center gap-1 text-white text-xs"
+
+        >
           <input
             type="radio"
             name="filter"
             value="name"
             data-testid="name-search-radio"
+            className="radio radio-warning radio-xs"
             id="name-search-radio"
             onChange={ handleChange }
           />
-          Name
+          <span>Name</span>
         </label>
-        <label htmlFor="first-letter-search-radio">
+        <label
+          htmlFor="first-letter-search-radio"
+          className="flex items-center justify-center gap-1 text-white text-xs"
+        >
           <input
             type="radio"
             name="filter"
             value="first-letter"
             data-testid="first-letter-search-radio"
+            className="radio radio-warning radio-xs"
             id="first-letter-search-radio"
             onChange={ handleChange }
           />
-          Primeira letra
+          <span>Primeira letra</span>
         </label>
       </div>
-      <button type="submit" data-testid="exec-search-btn">
+      <button
+        type="submit"
+        data-testid="exec-search-btn"
+        className="w-3/4 mx-auto bg-yellow-400 text-white rounded-lg p-1 m-2"
+      >
         Buscar
       </button>
     </form>

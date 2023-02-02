@@ -34,16 +34,18 @@ function FavoriteRecipes() {
 
   return (
     <section>
-      <Header title="Favorite Recipes" profile />
+      <Header title="Favorites" profile />
       <FavPageButtons handleFilter={ handleFilter } />
-      {filter.map((recipe, index) => (
-        <FavCard
-          key={ recipe.id }
-          index={ index }
-          recipe={ recipe }
-          handleUnfavorite={ handleUnfavorite }
-        />
-      ))}
+      <section className="flex flex-col gap-4">
+        {filter.map((recipe, index) => (
+          <FavCard
+            key={ recipe.id }
+            index={ index }
+            recipe={ recipe }
+            handleUnfavorite={ handleUnfavorite }
+          />
+        ))}
+      </section>
     </section>
   );
 }

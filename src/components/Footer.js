@@ -1,23 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import mealIcon from '../images/mealIcon.svg';
-import drinkIcon from '../images/drinkIcon.svg';
+import { GiMeal } from 'react-icons/gi';
+import { BiDrink } from 'react-icons/bi';
 import '../css/Footer.css';
 
 function Footer() {
   return (
-    <div
-      className="footer"
+    <footer
+      className="flex bottom-0 fixed w-full justify-between bg-purple-800 p-1"
       data-testid="footer"
     >
-      <Link to="/meals">
-        <img src={ mealIcon } alt="Meals icon" data-testid="meals-bottom-btn" />
-      </Link>
       <Link to="/drinks">
-        <img src={ drinkIcon } alt="Drinks icon" data-testid="drinks-bottom-btn" />
+        <BiDrink className="text-4xl text-yellow-400 m-auto ml-7" />
       </Link>
-
-    </div>
+      <Link to="/meals">
+        <GiMeal className="text-4xl text-yellow-400 m-auto mr-7" />
+      </Link>
+    </footer>
   );
 }
 

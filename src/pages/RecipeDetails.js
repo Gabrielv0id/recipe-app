@@ -2,12 +2,11 @@ import PropTypes from 'prop-types';
 import { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import copy from 'clipboard-copy';
+import { IoMdHeartEmpty, IoMdHeart } from 'react-icons/io';
+import { IoShareSocial } from 'react-icons/io5';
 import Carousel from '../components/Carousel';
 import DataContext from '../context/DataContext';
 import { handleFetchWithId, handleRecommendations } from '../services/fetchService';
-import shareIcon from '../images/shareIcon.svg';
-import favoriteIcon from '../images/blackHeartIcon.svg';
-import emptyFavoriteIcon from '../images/whiteHeartIcon.svg';
 
 function RecipeDetails({ location: { pathname } }) {
   const [linkCopied, setLinkCopied] = useState(false);
@@ -167,36 +166,46 @@ function RecipeDetails({ location: { pathname } }) {
   };
 
   return (
-    <section>
-      <img
-        data-testid="recipe-photo"
-        src={ recipe.strMealThumb || recipe.strDrinkThumb }
-        alt={ recipe.strMeal || recipe.strDrink }
-      />
-      <h1 data-testid="recipe-title">{ recipe.strMeal || recipe.strDrink }</h1>
-      <h2 data-testid="recipe-category">{ recipe.strAlcoholic || recipe.strCategory }</h2>
+    <section className="flex flex-col w-full">
       <div>
-        <button onClick={ handleCopy }>
-          <img src={ shareIcon } alt="share" data-testid="share-btn" />
-        </button>
-        <button
-          onClick={ favorite ? handleRemoveFavorite : handleFavorite }
+        <img
+          data-testid="recipe-photo"
+          src={ recipe.strMealThumb || recipe.strDrinkThumb }
+          alt={ recipe.strMeal || recipe.strDrink }
+        />
+        <h1
+          data-testid="recipe-title"
+          className="absolute text-6xl text-white font-bold top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-44"
         >
-          <img
-            src={ favorite ? favoriteIcon : emptyFavoriteIcon }
-            alt="favorite"
-            data-testid="favorite-btn"
-          />
-        </button>
-      </div>
-      {linkCopied && (
-        <div>
-          <span>Link copied!</span>
+          { recipe.strMeal || recipe.strDrink }
+        </h1>
+        <h2
+          data-testid="recipe-category"
+          className="absolute text-xl text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-28"
+        >
+          { recipe.strAlcoholic || recipe.strCategory }
+        </h2>
+        <div className="absolute top-0 right-0 m-2 space-x-2">
+          <button onClick={ handleCopy }>
+            <IoShareSocial data-testid="share-btn" className="text-yellow-400 font-bold text-4xl" />
+          </button>
+          <button
+            onClick={ favorite ? handleRemoveFavorite : handleFavorite }
+          >
+            {favorite ? <IoMdHeart className="text-yellow-400 font-bold text-4xl" /> : <IoMdHeartEmpty className="text-yellow-400 font-bold text-4xl" /> }
+          </button>
         </div>
-      )}
-      <hr />
-      <h3>Ingredients</h3>
-      <ul>
+        {linkCopied && (
+          <div className="absolute top-2 left-2">
+            <div className="flex justify-center items-center gap-2 p-2 bg-success w-full rounded-md text-center font-bold shadow-2xl">
+              <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <span>Link copied!</span>
+            </div>
+          </div>
+        )}
+      </div>
+      <h3 className="text-xl font-bold m-2 px-1">Ingredients</h3>
+      <ul className="border rounded-md m-2 p-2">
         {recipe.ingredients.map((ingredient, index) => (
           <li
             data-testid={ `${index}-ingredient-name-and-measure` }
@@ -206,23 +215,25 @@ function RecipeDetails({ location: { pathname } }) {
           </li>
         ))}
       </ul>
-      <hr />
-      <h3>Instructions</h3>
-      <p data-testid="instructions">{ recipe.strInstructions }</p>
-      <hr />
-      <h3>Video</h3>
+      <div className="divider" />
+      <h3 className="text-xl font-bold m-2 px-1">Instructions</h3>
+      <p data-testid="instructions" className="border rounded-md m-2 p-2">{ recipe.strInstructions }</p>
+      <div className="divider" />
+      <h3 className="text-xl font-bold m-2 px-1">Video</h3>
       {recipe.strYoutube
         && <iframe
           data-testid="video"
           src={ handleVideo(recipe.strYoutube) }
           title="video"
+          className="w-full"
         />}
-      <hr />
-      <h3>Recomendadas</h3>
+      <div className="divider" />
+      <h3 className="text-xl font-bold m-2 px-1">Recomendadas</h3>
       <Carousel data={ recommendations } />
       <button
         data-testid="start-recipe-btn"
         className="recipe-btn"
+        className="my-4 w-10/12 bg-yellow-400 text-white font-bold py-2 px-4 uppercase mx-auto rounded"
         onClick={ handleStart }
       >
         { !inProgress ? 'Start Recipe' : 'Continue Recipe' }

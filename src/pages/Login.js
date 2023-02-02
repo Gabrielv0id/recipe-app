@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import DataContext from '../context/DataContext';
+import logo from '../images/logoRecipes.svg';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -38,32 +39,43 @@ function Login() {
   const { email, password } = formData;
 
   return (
-    <main>
-      <h1>Login</h1>
-      <form onSubmit={ handleSubmit }>
-        <label htmlFor="email">
-          Email
-          <input
-            type="email"
-            value={ email }
-            onChange={ handleChange }
-            data-testid="email-input"
-            name="email"
-          />
-        </label>
-        <label htmlFor="password">
-          Password
-          <input
-            type="password"
-            data-testid="password-input"
-            name="password"
-            value={ password }
-            onChange={ handleChange }
-          />
-        </label>
+    <main className="flex flex-col justify-between items-center w-screen h-screen">
+      <div className="flex justify-center items-center bg-purple-800 w-full h-1/2">
+        <img src={ logo } alt="logo" className="m-auto" />
+      </div>
+      <h1 className="text-2xl uppercase text-purple-700 text-center">Login</h1>
+      <form onSubmit={ handleSubmit } className="flex flex-col gap-2 p-2">
+        <input
+          type="email"
+          value={ email }
+          onChange={ handleChange }
+          placeholder="Email"
+          data-testid="email-input"
+          className="input input-bordered input-primary w-full max-w-xs"
+          name="email"
+        />
+        <input
+          type="password"
+          data-testid="password-input"
+          name="password"
+          placeholder="Senha"
+          className="input input-bordered input-primary w-full max-w-xs"
+          value={ password }
+          onChange={ handleChange }
+        />
         <button
           type="submit"
           data-testid="login-submit-btn"
+          className="
+          bg-purple-600
+          text-white
+          text-lg
+          rounded-lg
+          p-2
+          duration-200
+          enabled:hover:bg-purple-800
+          disabled:bg-gray-500
+          disabled:cursor-not-allowed"
           disabled={ !validateButton() }
         >
           Enviar
