@@ -14,7 +14,6 @@ import { handleFetch, handleButtonFetch } from '../services/fetchService';
 const MAXBUTTONS = 5;
 export default function MainPageButtons({ type }) {
   const { buttons, setButtons, setRecipes, recipesDB } = useContext(DataContext);
-  const [toggle, setToggle] = useState(false);
 
   const MyMeals = [
     <GiMeat key={ 0 } className="text-2xl text-yellow-400 m-auto" />,
@@ -43,10 +42,9 @@ export default function MainPageButtons({ type }) {
   const limitButtons = buttons.slice(0, MAXBUTTONS);
 
   const handleClick = async (search) => {
-    if (search.length > 0 && !toggle) {
+    if (search.length > 0) {
       const data = await handleFetch(type, 'category', search);
       setRecipes(data[type]);
-      setToggle(true);
       return;
     }
     setRecipes(recipesDB);

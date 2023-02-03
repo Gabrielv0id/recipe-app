@@ -6,7 +6,7 @@ import { IoShareSocial } from 'react-icons/io5';
 import { IoMdHeartEmpty, IoMdHeart } from 'react-icons/io';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
-function FavCard({ index, recipe, handleUnfavorite }) {
+function FavCard({ index, recipe, handleUnfavorite, fromFav }) {
   const [copied, setCopied] = useState(false);
 
   const {
@@ -34,25 +34,36 @@ function FavCard({ index, recipe, handleUnfavorite }) {
         </Link>
       </div>
       <div className="flex flex-col justify-evenly w-1/2 pl-3">
-        <div>
-          <Link to={ `/${type}s/${id}` }>
-            <h3 data-testid={ `${index}-horizontal-name` } className="text-xl font-bold truncate">{name}</h3>
-          </Link>
-          <p
-            data-testid={ `${index}-horizontal-top-text` }
-            className="text-xs"
-          >
-            {alcoholicOrNot ? `${alcoholicOrNot}` : `${nationality} - ${category}`}
-          </p>
+        <div className="flex justify-between flex-wrap">
+          <div>
+            <Link to={ `/${type}s/${id}` }>
+              <h3 data-testid={ `${index}-horizontal-name` } className="text-xl font-bold truncate">{name}</h3>
+            </Link>
+            <p
+              data-testid={ `${index}-horizontal-top-text` }
+              className="text-xs"
+            >
+              {alcoholicOrNot ? `${alcoholicOrNot}` : `${nationality} - ${category}`}
+            </p>
+          </div>
+          { !fromFav
+          && (
+            <button type="button" onClick={ handleShare }>
+              <IoShareSocial data-testid="share-btn" className="text-yellow-400 font-bold text-2xl mr-2" />
+            </button>
+          )}
         </div>
         { doneDate && <p data-testid={ `${index}-horizontal-done-date` } className="text-xs">{doneDate.slice(0, 10)}</p> }
         <div className="flex gap-2">
-          <button type="button" onClick={ handleShare }>
-            <IoShareSocial data-testid="share-btn" className="text-yellow-400 font-bold text-4xl" />
-          </button>
-          <button type="button" onClick={ () => handleUnfavorite(id) }>
-            <IoMdHeart className="text-yellow-400 font-bold text-4xl" />
-          </button>
+          { fromFav
+            && <>
+              <button type="button" onClick={ handleShare }>
+                <IoShareSocial data-testid="share-btn" className="text-yellow-400 font-bold text-4xl" />
+              </button>
+              <button type="button" onClick={ () => handleUnfavorite(id) }>
+                <IoMdHeart className="text-yellow-400 font-bold text-4xl" />
+              </button>
+               </> }
         </div>
         {copied && <span className="text-xs">Link copied!</span>}
         <div className="flex">
@@ -67,6 +78,7 @@ function FavCard({ index, recipe, handleUnfavorite }) {
 
 FavCard.defaultProps = {
   handleUnfavorite: () => {},
+  fromFav: false,
 };
 
 FavCard.propTypes = {
@@ -83,6 +95,7 @@ FavCard.propTypes = {
     doneDate: PropTypes.string,
   }).isRequired,
   handleUnfavorite: PropTypes.func,
+  type: PropTypes.string,
 };
 
 export default FavCard;

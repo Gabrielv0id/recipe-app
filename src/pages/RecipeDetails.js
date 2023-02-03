@@ -8,6 +8,8 @@ import Carousel from '../components/Carousel';
 import DataContext from '../context/DataContext';
 import { handleFetchWithId, handleRecommendations } from '../services/fetchService';
 
+const TIMER = 3000;
+
 function RecipeDetails({ location: { pathname } }) {
   const [linkCopied, setLinkCopied] = useState(false);
   const [favorite, setFavorite] = useState(false);
@@ -118,6 +120,13 @@ function RecipeDetails({ location: { pathname } }) {
     setLinkCopied(true);
   };
 
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      setLinkCopied(false);
+    }, TIMER);
+    return () => clearTimeout(timeOut);
+  }, [linkCopied]);
+
   const handleFavorite = () => {
     if (!localStorage.getItem('favoriteRecipes')) {
       localStorage.setItem('favoriteRecipes', JSON.stringify([]));
@@ -166,22 +175,23 @@ function RecipeDetails({ location: { pathname } }) {
   };
 
   return (
-    <section className="flex flex-col w-full">
+    <section className="w-full flex flex-col justify-center">
       <div>
         <img
           data-testid="recipe-photo"
           src={ recipe.strMealThumb || recipe.strDrinkThumb }
           alt={ recipe.strMeal || recipe.strDrink }
+          className="w-full h-48 object-cover"
         />
         <h1
           data-testid="recipe-title"
-          className="absolute text-6xl text-white font-bold top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-44"
+          className="absolute text-6xl text-white font-bold top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-64"
         >
           { recipe.strMeal || recipe.strDrink }
         </h1>
         <h2
           data-testid="recipe-category"
-          className="absolute text-xl text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-28"
+          className="absolute text-xl text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-48"
         >
           { recipe.strAlcoholic || recipe.strCategory }
         </h2>
@@ -218,26 +228,34 @@ function RecipeDetails({ location: { pathname } }) {
       <div className="divider" />
       <h3 className="text-xl font-bold m-2 px-1">Instructions</h3>
       <p data-testid="instructions" className="border rounded-md m-2 p-2">{ recipe.strInstructions }</p>
-      <div className="divider" />
-      <h3 className="text-xl font-bold m-2 px-1">Video</h3>
-      {recipe.strYoutube
-        && <iframe
-          data-testid="video"
-          src={ handleVideo(recipe.strYoutube) }
-          title="video"
-          className="w-full"
-        />}
+      {recipe.strYoutube && (
+        <>
+          <div className="divider" />
+          <h3 className="text-xl font-bold m-2 px-1">Video</h3>
+          <div className="m-2">
+            {recipe.strYoutube
+          && <iframe
+            data-testid="video"
+            src={ handleVideo(recipe.strYoutube) }
+            title="video"
+            className="w-full"
+          />}
+          </div>
+        </>
+      )}
       <div className="divider" />
       <h3 className="text-xl font-bold m-2 px-1">Recomendadas</h3>
-      <Carousel data={ recommendations } />
-      <button
-        data-testid="start-recipe-btn"
-        className="recipe-btn"
-        className="my-4 w-10/12 bg-yellow-400 text-white font-bold py-2 px-4 uppercase mx-auto rounded"
-        onClick={ handleStart }
-      >
-        { !inProgress ? 'Start Recipe' : 'Continue Recipe' }
-      </button>
+      <div className="m-2">
+        <Carousel data={ recommendations } />
+        <button
+          data-testid="start-recipe-btn"
+          className="recipe-btn"
+          className="my-4 w-full bg-yellow-400 text-white font-bold py-2 px-4 uppercase mx-auto rounded"
+          onClick={ handleStart }
+        >
+          { !inProgress ? 'Start Recipe' : 'Continue Recipe' }
+        </button>
+      </div>
     </section>
   );
 }

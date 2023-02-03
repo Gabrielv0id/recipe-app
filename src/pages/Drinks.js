@@ -6,7 +6,7 @@ import MainPageButtons from '../components/MainPageButtons';
 function Drinks() {
   return (
     <section>
-      <Header title="Drinks" type="drinks" profile search />
+      <Header title="Drinks" type="drinks" page="drink" profile search />
       <MainPageButtons type="drinks" />
       <Recipes type="drinks" />
       <Footer />

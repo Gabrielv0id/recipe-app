@@ -6,6 +6,8 @@ import { IoMdHeartEmpty, IoMdHeart } from 'react-icons/io';
 import { IoShareSocial } from 'react-icons/io5';
 import { handleFetchWithId } from '../services/fetchService';
 
+const TIMER = 3000;
+
 export default function RecipeInProgress({ location: { pathname } }) {
   const type = pathname.split('/')[1];
   const id = pathname.split('/')[2];
@@ -92,6 +94,14 @@ export default function RecipeInProgress({ location: { pathname } }) {
     copy(result);
     setLinkCopied(true);
   };
+
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      setLinkCopied(false);
+    }, TIMER);
+    return () => clearTimeout(timeOut);
+  }, [linkCopied]);
+
   const handleFavorite = () => {
     if (!localStorage.getItem('favoriteRecipes')) {
       localStorage.setItem('favoriteRecipes', JSON.stringify([]));
@@ -242,7 +252,7 @@ export default function RecipeInProgress({ location: { pathname } }) {
         data-testid="finish-recipe-btn"
         disabled={ disabled }
         onClick={ handleFinishRecipe }
-        className="my-4 w-10/12 bg-yellow-400 text-white font-bold py-2 px-4 uppercase mx-auto rounded"
+        className="my-4 w-10/12 bg-yellow-400 text-white font-bold py-2 px-4 uppercase mx-auto rounded disabled:bg-gray-500 disabled:cursor-not-allowed"
       >
         Receita Finalizada
       </button>
