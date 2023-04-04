@@ -25,7 +25,7 @@ function DoneRecipes() {
   };
 
   return (
-    <section>
+    <section className="relative w-full">
       <Header title="Done Recipes" page="done" profile />
       <FavPageButtons handleFilter={ handleFilter } />
       {filter.map((recipe, index) => (

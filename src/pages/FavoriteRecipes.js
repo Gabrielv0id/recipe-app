@@ -33,7 +33,7 @@ function FavoriteRecipes() {
   };
 
   return (
-    <section>
+    <section className="relative w-full">
       <Header title="Favorites" page="favorite" profile />
       <FavPageButtons handleFilter={ handleFilter } />
       <section className="flex flex-col gap-4">
