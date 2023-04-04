@@ -53,7 +53,14 @@ function SearchBar({ type }) {
   const { search } = searchData;
 
   return (
-    <form onSubmit={ handleSubmit } className="flex flex-col gap-2 justify-center itemces-center border bg-purple-800 m-2 w-full max-w-xs mx-auto rounded-lg">
+    <form
+      onSubmit={ handleSubmit }
+      className="flex
+      flex-col
+      gap-2
+      justify-center
+      itemces-center border bg-purple-800 m-2 w-full max-w-xs mx-auto rounded-lg"
+    >
       <input
         type="text"
         placeholder="Pesquisar"

@@ -4,6 +4,7 @@ import copy from 'clipboard-copy';
 import { useHistory } from 'react-router-dom';
 import { IoMdHeartEmpty, IoMdHeart } from 'react-icons/io';
 import { IoShareSocial } from 'react-icons/io5';
+import { BiArrowBack } from 'react-icons/bi';
 import { handleFetchWithId } from '../services/fetchService';
 
 const TIMER = 3000;
@@ -183,20 +184,17 @@ export default function RecipeInProgress({ location: { pathname } }) {
     history.push('/done-recipes');
   };
 
+  const handleGoBack = () => {
+    history.push(`/${type}/${id}`);
+  };
+
   return (
-    <section className="flex flex-col w-full">
-      <div>
+    <section className="flex flex-col">
+      <div className="relative">
+        <div className="absolute bottom-0 w-full h-11 bg-black opacity-40" />
         <h1
           data-testid="recipe-title"
-          className="absolute
-          text-6xl
-          text-white
-          font-bold
-          top-1/2
-          left-1/2
-          transform
-          -translate-x-1/2
-          -translate-y-44"
+          className="absolute text-2xl text-white font-bold opacity-100 bottom-4"
         >
           { inProgress.strMeal || inProgress.strDrink }
         </h1>
@@ -207,15 +205,11 @@ export default function RecipeInProgress({ location: { pathname } }) {
         />
         <h2
           data-testid="recipe-category"
-          className="absolute text-xl
-          text-white top-1/2 left-1/2
-          transform
-          -translate-x-1/2
-          -translate-y-28"
+          className="absolute text-md text-white bottom-0 transform"
         >
           { inProgress.strAlcoholic || inProgress.strCategory }
         </h2>
-        <div className="absolute top-0 right-0 m-2 space-x-2">
+        <div className="absolute top-25 right-0 m-2 space-x-2">
           <button onClick={ handleCopy }>
             <IoShareSocial
               data-testid="share-btn"
@@ -246,6 +240,12 @@ export default function RecipeInProgress({ location: { pathname } }) {
             </div>
           </div>
         )}
+        <div className="absolute top-0 left-0">
+          <BiArrowBack
+            className="text-yellow-500 text-4xl m-1 cursor-pointer drop-shadow-lg"
+            onClick={ handleGoBack }
+          />
+        </div>
       </div>
       <h3 className="text-xl font-bold m-2 px-1">Ingredients</h3>
       <div className="border rounded-md flex flex-col m-2 p-2">

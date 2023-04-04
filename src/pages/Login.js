@@ -39,7 +39,7 @@ function Login() {
   const { email, password } = formData;
 
   return (
-    <main className="flex flex-col justify-between items-center w-screen h-screen">
+    <main className="flex flex-col justify-between items-center w-full h-full">
       <div className="flex justify-center items-center bg-purple-800 w-full h-1/2">
         <img src={ logo } alt="logo" className="m-auto" />
       </div>

@@ -50,7 +50,12 @@ function Header({ title, profile, search, type, page }) {
       {showSearchBar && <SearchBar type={ type } />}
       <div className="my-4">
         {pageType[page]}
-        <h1 data-testid="page-title" className="uppercase text-purple-800 font-bold text-2xl text-center">{title}</h1>
+        <h1
+          data-testid="page-title"
+          className="uppercase text-purple-800 font-bold text-2xl text-center"
+        >
+          {title}
+        </h1>
       </div>
     </header>
   );

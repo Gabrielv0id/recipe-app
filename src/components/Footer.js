@@ -7,7 +7,7 @@ import '../css/Footer.css';
 function Footer() {
   return (
     <footer
-      className="flex bottom-0 fixed w-full justify-between bg-purple-800 p-1"
+      className="flex bottom-0 fixed w-[340px] justify-evenly bg-purple-800 p-1"
       data-testid="footer"
     >
       <Link to="/drinks">

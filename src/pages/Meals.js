@@ -5,7 +5,7 @@ import MainPageButtons from '../components/MainPageButtons';
 
 function Meals() {
   return (
-    <section>
+    <section className="relative w-full">
       <Header title="Meals" type="meals" page="meal" profile search />
       <MainPageButtons type="meals" />
       <Recipes type="meals" />

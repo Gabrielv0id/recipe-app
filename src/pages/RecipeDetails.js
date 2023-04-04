@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import { IoMdHeartEmpty, IoMdHeart } from 'react-icons/io';
 import { IoShareSocial } from 'react-icons/io5';
+import { BiArrowBack } from 'react-icons/bi';
 import Carousel from '../components/Carousel';
 import DataContext from '../context/DataContext';
 import { handleFetchWithId, handleRecommendations } from '../services/fetchService';
@@ -174,45 +175,66 @@ function RecipeDetails({ location: { pathname } }) {
     setFavorite((prevState) => !prevState);
   };
 
+  const handleGoBack = () => {
+    history.push(`/${type}`);
+  };
+
   return (
-    <section className="w-full flex flex-col justify-center">
-      <div>
+    <section className="flex flex-col">
+      <div className="relative">
         <img
           data-testid="recipe-photo"
           src={ recipe.strMealThumb || recipe.strDrinkThumb }
           alt={ recipe.strMeal || recipe.strDrink }
           className="w-full h-48 object-cover"
         />
+        <div className="absolute bottom-0 w-full h-11 bg-black opacity-40" />
         <h1
           data-testid="recipe-title"
-          className="absolute text-6xl text-white font-bold top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-64"
+          className="absolute text-2xl text-white font-bold opacity-100 bottom-4"
         >
           { recipe.strMeal || recipe.strDrink }
         </h1>
         <h2
           data-testid="recipe-category"
-          className="absolute text-xl text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-48"
+          className="absolute text-md text-white bottom-0 transform "
         >
           { recipe.strAlcoholic || recipe.strCategory }
         </h2>
-        <div className="absolute top-0 right-0 m-2 space-x-2">
+        <div className="absolute top-25 right-0 m-2 space-x-2">
           <button onClick={ handleCopy }>
-            <IoShareSocial data-testid="share-btn" className="text-yellow-400 font-bold text-4xl" />
+            <IoShareSocial
+              data-testid="share-btn"
+              className="text-yellow-400 font-bold text-4xl"
+            />
           </button>
           <button
             onClick={ favorite ? handleRemoveFavorite : handleFavorite }
           >
-            {favorite ? <IoMdHeart className="text-yellow-400 font-bold text-4xl" /> : <IoMdHeartEmpty className="text-yellow-400 font-bold text-4xl" /> }
+            {favorite ? <IoMdHeart
+              className="text-yellow-400 font-bold text-4xl"
+            /> : <IoMdHeartEmpty className="text-yellow-400 font-bold text-4xl" /> }
           </button>
         </div>
         {linkCopied && (
           <div className="absolute top-2 left-2">
-            <div className="flex justify-center items-center gap-2 p-2 bg-success w-full rounded-md text-center font-bold shadow-2xl">
+            <div
+              className="flex
+              justify-center
+              items-center gap-2
+              p-2 bg-success w-full rounded-md text-center font-bold shadow-2xl"
+            >
               <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               <span>Link copied!</span>
             </div>
           </div>
         )}
+        <div className="absolute top-0 left-0">
+          <BiArrowBack
+            className="text-yellow-500 text-4xl m-1 cursor-pointer drop-shadow-lg"
+            onClick={ handleGoBack }
+          />
+        </div>
       </div>
       <h3 className="text-xl font-bold m-2 px-1">Ingredients</h3>
       <ul className="border rounded-md m-2 p-2">
@@ -227,7 +249,12 @@ function RecipeDetails({ location: { pathname } }) {
       </ul>
       <div className="divider" />
       <h3 className="text-xl font-bold m-2 px-1">Instructions</h3>
-      <p data-testid="instructions" className="border rounded-md m-2 p-2">{ recipe.strInstructions }</p>
+      <p
+        data-testid="instructions"
+        className="border rounded-md m-2 p-2"
+      >
+        { recipe.strInstructions }
+      </p>
       {recipe.strYoutube && (
         <>
           <div className="divider" />

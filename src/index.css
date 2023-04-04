@@ -6,6 +6,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 340px;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 * {
